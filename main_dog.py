@@ -1,7 +1,7 @@
-from sst import AudioStreamer
-from tools import tools, tool_choice
+from utils.speech_processing.speech_to_text import AudioStreamer
+from prompt_design import tools, tool_choice
 import json
-from send_command import sendCommand, initBittle, closeBittle
+from utils.send_command import sendCommand, initBittle, closeBittle
 import time
 
 prompt = "你是一只机器小狗，你不会说话，请不要给response，永远用tool_choice操作。你只能从给出的tools中进行选择。"

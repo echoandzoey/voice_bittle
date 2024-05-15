@@ -10,7 +10,7 @@ import hmac
 from urllib.parse import urlencode
 from wsgiref.handlers import format_date_time
 
-from key import *
+from config.api_info import *
 import json
 
 # import logging

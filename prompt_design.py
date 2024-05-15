@@ -1,10 +1,5 @@
-from openai import OpenAI
-from key import OPENAI_API_KEY
-from key import ZHIPU_API_KEY
+from config.api_info import ZHIPU_API_KEY
 from zhipuai import ZhipuAI
-import openai
-import json
-
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 client = ZhipuAI(api_key=ZHIPU_API_KEY) 
@@ -184,7 +179,7 @@ dogfewshot3= '''
 
 def tool_choice(message, tools, history):
     """
-    Send the message to the model with a list of tools and propmt the model to use the tools.
+    Send the message to the model with a list of tools and prompt the model to use the tools.
     Tools is a list of dict describing functions.
     Return the chosen function.
     """
