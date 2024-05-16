@@ -1,5 +1,5 @@
 from utils.speech_processing.speech_to_text import AudioStreamer
-from prompt_design import tools, tool_choice
+from llm_interaction import tools, tool_choice
 import json
 from utils.send_command import sendCommand, initBittle, closeBittle
 import time

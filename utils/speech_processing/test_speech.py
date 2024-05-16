@@ -3,7 +3,6 @@ import pyaudio
 import numpy as np
 
 def is_speech(frame, sample_rate=16000, mode=1):
-
     # mode 0-3, 宽松到严格
     vad = webrtcvad.Vad(mode)
     return vad.is_speech(frame, sample_rate)

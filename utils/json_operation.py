@@ -1,12 +1,18 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-def ensure_json_wrapped_with_braces(json_str):
-    """
-    确保给定的JSON字符串以开放的大括号开始，以闭合的大括号结束。
 
-    :param json_str: 需要检查和修改的JSON字符串。
-    :return: 修改后的JSON字符串。
-    """
+"""
+    json处理相关函数
+"""
+
+"""
+确保给定的JSON字符串以开放的大括号开始，以闭合的大括号结束。
+
+:param json_str: 需要检查和修改的JSON字符串。
+:return: 修改后的JSON字符串。
+"""
+def ensure_json_wrapped_with_braces(json_str):
+
     # 去除字符串首尾的空格以准确检查首尾字符
     trimmed_str = json_str.strip()
 

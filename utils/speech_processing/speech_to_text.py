@@ -28,6 +28,7 @@ RATE = 8000
 # The status of the connection, 1 for continuing, 2 for closing
 status = 2
 
+
 class AudioStreamer:
     def __init__(self, callback=None):
         self.ws = None
@@ -42,10 +43,10 @@ class AudioStreamer:
 
     def on_message(self, ws, message):
         # print(f"Received message: {message}")
-        
+
         # Parse the message
         data = json.loads(message)["data"]
-        
+
         # Update status
         global status
         status = data["status"]
@@ -92,7 +93,6 @@ class AudioStreamer:
             status = 1
             data_template["data"]["status"] = status
 
-
             # Continous Frames
             while status != 2:
                 data = self.stream.read(CHUNK)
@@ -107,6 +107,7 @@ class AudioStreamer:
             time.sleep(1)
             ws.close()
             # print("Thread terminating...")
+
         threading.Thread(target=run).start()
 
     def create_url(self):
@@ -154,7 +155,7 @@ class AudioStreamer:
             if status == 2:
                 self.start_streaming()
                 time.sleep(1)
-    
+
     def close(self):
         # Clean up
         self.stream.stop_stream()
