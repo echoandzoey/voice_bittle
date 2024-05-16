@@ -19,20 +19,19 @@ def on_message(message):
     # Ask LLM to choose a tool，并载入历史记录
     global history
     tool = tool_choice(result, tools, history)
-    print(tool)
     history.append({"role": "user", "content": result})
     # print(f"选择了{tool["action"]["name"]}")
 
     # 解析小狗动作
-    # parse_action(tool)
-    name, arguments = parse_action(tool)
-    # if name:
-    #     print(f"选择了{name}")
-    #     print(arguments)
-
-    print(f"选择了{name}")
-
-    # print(f"选择了{arguments}")
+    parse_action(tool)
+    # name, arguments = parse_action(tool)
+    # # if name:
+    # #     print(f"选择了{name}")
+    # #     print(arguments)
+    #
+    # print(f"选择了{name}")
+    #
+    # # print(f"选择了{arguments}")
 
 
 # 打印用户语音识别结果
@@ -50,16 +49,24 @@ def print_user_input(message):
 
 def parse_action(action_data):
     try:
-        # 尝试解析 action 中的 arguments 字段
+        # 示例：(输入：小狗，你好呀）
+        # action_data: {
+        #     "type": "chat",
+        #     "thoughts": "用户在友好地打招呼",
+        #     "action": {"arguments": "none", "name": "hi"}
+        # }
         print(f"Received action_data: {action_data}")  # 添加这行来调试
+
+        # 尝试解析 action 中的 arguments 字段
         # global arguments
         action_data = json.loads(action_data)
         name = action_data['action']['name']
         arguments = action_data['action']['arguments']
 
-        print(f'''nameis{name}++++++++++++++''')
-        print(f'''arguementis{arguments}++++++++++++++''')
+        # print(f'''nameis{name}++++++++++++++''')
+        # print(f'''arguementis{arguments}++++++++++++++''')
         # print(f'''namevalueis{name_value}++++++++++++++''')
+
         # 根据 'name' 字段的值判断动作
         if name == 'none':
             return None  # 没有动作
@@ -67,7 +74,6 @@ def parse_action(action_data):
             return name, arguments
     except json.JSONDecodeError:
         return None  # 解析错误，视为没有动作
-
 
 
 if __name__ == "__main__":
