@@ -1,9 +1,7 @@
 from config.api_info import ZHIPU_API_KEY
-from utils.json_operation import *
+from myPetoi.utils.json_operation import *
 from zhipuai import ZhipuAI
-from prompt_design.dog_action import *
-
-import json
+from prompt_file.dog_action_json import *
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 client = ZhipuAI(api_key=ZHIPU_API_KEY)
@@ -59,31 +57,6 @@ prompt_judge = f'''
 }}'''
 
 
-user_fewshot1 = user_fewshot_json_str("看上去不错")
-dog_fewshot1 = assistant_fewshot_json_str(
-    "chat",
-    "他不是在对我讲话",
-    "none")
-
-user_fewshot2 = user_fewshot_json_str("看上去不错")
-dog_fewshot2 = assistant_fewshot_json_str(
-    "chat",
-    "他在对我讲话，我没有吃饭",
-    "wh")
-
-user_fewshot3 = user_fewshot_json_str("所以这个小学生是不是最后在老师发现的办公室里面")
-dog_fewshot3 = assistant_fewshot_json_str(
-    "game",
-    "他在和我玩海龟汤，这个符合正确答案，他答对了",
-    "jmp")
-
-user_fewshot4 = user_fewshot_json_str("跳个舞吧")
-dog_fewshot4 = assistant_fewshot_json_str(
-    "chat",
-    "他在对我讲话，我会跳舞",
-    "mw")
-
-
 def tool_choice(message, tools, history):
     """
     Send the message to the model with a list of tools and prompt the model to use the tools.
@@ -92,21 +65,33 @@ def tool_choice(message, tools, history):
     """
     messages = [
         role_content_json("system", prompt_judge),
-        # {"role": "user", "content": Userfewshot1},
-        # {"role": "assistant", "content": dogfewshot1},
 
-        {"role": "user", "content": user_fewshot1},
-        {"role": "assistant", "content": dog_fewshot1},
+        user_fewshot_json("看上去不错"),
+        dog_fewshot_json("chat",
+                         "他不是在对我讲话",
+                         "none"),
 
-        {"role": "user", "content": user_fewshot2},
-        {"role": "assistant", "content": dog_fewshot2},
-        #  {"role": "user", "content": Userfewshot3},
-        # {"role": "assistant", "content": dogfewshot3},
-        # {"role": "user", "content": Userfewshot4},
-        # {"role": "assistant", "content": dogfewshot4},
+        user_fewshot_json("看上去不错"),
+        dog_fewshot_json("chat",
+                         "他在对我讲话，我没有吃饭",
+                         "wh"),
+
+        user_fewshot_json("所以这个小学生是不是最后在老师发现的办公室里面"),
+        dog_fewshot_json("game",
+                         "他在和我玩海龟汤，这个符合正确答案，他答对了",
+                         "jmp"),
+
+        user_fewshot_json("跳个舞吧"),
+        dog_fewshot_json("chat",
+                         "他在对我讲话，我会跳舞",
+                         "mw"),
+
+
         # *history,
-        {"role": "user", "content": message},
+        role_content_json("user", message)
     ]
+
+    print(message)
 
     completion = client.chat.completions.create(
         # model="glm-4", messages=messages, tools=tools, tool_choice="auto"
