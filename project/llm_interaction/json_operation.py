@@ -3,45 +3,28 @@
 import json
 
 """
-    json处理相关函数
+    【json operation.py :json处理相关函数】
 """
 
-
-def template_dialog_json(user_speech, reply_type, reply_thoughts, reply_action, reply_args="0"):
-    user_fewshot = user_fewshot_json_str(user_speech)
-    dog_fewshot = assistant_fewshot_json_str(reply_type, reply_thoughts, reply_action, reply_args)
-    return {"role:": user_fewshot, "content": dog_fewshot}
-
-
 """
-    role_content的json格式构造函数，role分别为user, assistant, system
+    ——————————提示词json构造函数————————————————
 """
 
-def system_content_json(content):
-    return {"role": "system", "content": content}
 
 def role_content_json(role, content):
     return {"role": role, "content": content}
 
 
-def user_content_json(content):
-    return {"role": "user", "content": content}
+# 用户发言提示构造函数
+def user_fewshot_json(user_speech):
+    content = f"User:{user_speech}"
+    return role_content_json("user", content)
 
 
-def assistant_content_json(content):
-    return {"role": "assistant", "content": content}
-
-
-def user_fewshot_json_str(user_speech):
+# 小狗回复样例构造函数
+def dog_fewshot_json(type_, thoughts, action_name, action_args="0"):
     """
-    - 构造符合'User:发言内容'格式的字符串。
-    """
-    return f"User:{user_speech}"
-
-
-def assistant_fewshot_json_str(type_, thoughts, action_name, action_args="0"):
-    """
-    构造小狗回复样例的JSON字符串。
+    构造小狗回复样例的JSON。
 
     参数:
     - type_: 消息类型，如 "chat" 或 "game"。
@@ -60,7 +43,14 @@ def assistant_fewshot_json_str(type_, thoughts, action_name, action_args="0"):
     }
 
     # 使用json.dumps格式化输出为字符串
-    return json.dumps(message, indent=4)
+    content = json.dumps(message, indent=4)
+
+    return role_content_json("assistant", content)
+
+
+"""
+    ————————————————json格式化函数————————————————
+"""
 
 
 def ensure_json_wrapped_with_braces(json_str):

@@ -1,10 +1,10 @@
 """
     无需连接硬件，用文字表示交互行为
 """
-import os
 
-from utils.speech_processing.speech_to_text import AudioStreamer
-from llm_interaction import tools, tool_choice
+from myPetoi.utils.speech_processing.speech_to_text import AudioStreamer
+from myPetoi.llm_interaction.turtle_game import tool_choice
+from myPetoi.llm_interaction.prompt_file.dog_tools_json import *
 import json
 import time
 
