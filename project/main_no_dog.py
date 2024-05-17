@@ -6,22 +6,23 @@ from project.utils.speech_processing.speech_to_text import AudioStreamer
 from project.llm_interaction.interact_with_llm import tool_choice
 import json
 import time
+from project.llm_interaction.prompt_action_list import actions
 
-global history
-
+history = []
 
 def on_message(message):
     # 打印用户语音输入的识别结果
     result = print_user_input(message)
 
     # Ask LLM to choose a tool
-    tool = tool_choice(result, history)
+    tool = tool_choice(result)
+    global history
     history.append({"role": "user", "content": result})
-    # print(f"选择了{tool["action"]["name"]}")
 
     # 解析小狗动作, 并发送给机器狗
     name, arguments = parse_action(tool)
-    print(f"选择了{name},{arguments}")
+    action_info = actions[name]
+    print(f"选择了{name}，意思是{action_info}")
 
 
 # 打印用户语音识别结果

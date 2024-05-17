@@ -1,10 +1,17 @@
 from config.api_info import ZHIPU_API_KEY
 from project.utils.json_operation import *
 from zhipuai import ZhipuAI
-from project.llm_interaction.turtle_prompt import prompt_judge
 
+# 海龟汤prompt
+# from project.llm_interaction.turtle_prompt import prompt_judge
 
-def tool_choice(message, history):
+# 聊天prompt
+from project.llm_interaction.prompt_chat import prompt_judge
+
+# client = OpenAI(api_key=OPENAI_API_KEY)
+client = ZhipuAI(api_key=ZHIPU_API_KEY)
+
+def tool_choice(message):
     """
     Send the message to the model with a list of tools and prompt the model to use the tools.
     Tools is a list of dict describing functions.
@@ -42,13 +49,11 @@ def tool_choice(message, history):
         # role_content_json("user", history)
     ]
 
-    # client = OpenAI(api_key=OPENAI_API_KEY)
-    client = ZhipuAI(api_key=ZHIPU_API_KEY)
+
     # 模型交互
     reply = client.chat.completions.create(
         # model="glm-4", messages=messages, tools=tools, tool_choice="auto"
         model="glm-4", messages=prompts,
-
     )
 
     try:
