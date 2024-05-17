@@ -1,6 +1,7 @@
 from config.api_info import ZHIPU_API_KEY
-from project.llm_interaction.json_operation import *
+from project.utils.json_operation import *
 from zhipuai import ZhipuAI
+
 actions = {
     'balance': "Maintain equilibrium",  # 维持身体平衡
     'buttUp': "Raise the backside into the air, indicating play or invitation to play",  # 抬起臀部，表示游戏或邀请玩耍
@@ -43,8 +44,6 @@ actions = {
     'wh': "Disagree",  # 不赞同
     'zz': "Sleepy, mimic sleeping or resting"  # 困了，模拟睡眠或休息
 }
-# client = OpenAI(api_key=OPENAI_API_KEY)
-client = ZhipuAI(api_key=ZHIPU_API_KEY)
 
 turtle_problem = '''树林里有一间建筑。建筑周围没有脚印。里面有七个人，全部都死了。他们都同时死了。房间内没有其他人。他们是怎么死的？
 '''
@@ -103,9 +102,11 @@ def tool_choice(message, tools, history):
     Tools is a list of dict describing functions.
     Return the chosen function.
     """
-    messages = [
+    prompts = [
+        # 系统提示
         role_content_json("system", prompt_judge),
 
+        # 对话样例
         user_fewshot_json("看上去不错"),
         dog_fewshot_json("chat",
                          "他不是在对我讲话",
@@ -126,23 +127,23 @@ def tool_choice(message, tools, history):
                          "他在对我讲话，我会跳舞",
                          "mw"),
 
-
-        # *history,
+        # 用户输入
         role_content_json("user", message)
     ]
 
-    print(message)
-
-    completion = client.chat.completions.create(
+    # client = OpenAI(api_key=OPENAI_API_KEY)
+    client = ZhipuAI(api_key=ZHIPU_API_KEY)
+    # 模型交互
+    reply = client.chat.completions.create(
         # model="glm-4", messages=messages, tools=tools, tool_choice="auto"
-        model="glm-4", messages=messages,
+        model="glm-4", messages=prompts,
 
     )
 
     try:
-        choice = completion.choices[0].message.content
+        # 结果解析
+        choice = reply.choices[0].message.content
         # choice = completion.choices[0].message.tool_calls[0].function
-
         print(f"-------------{choice}")
         fixed_choice = ensure_json_wrapped_with_braces(choice)
 
