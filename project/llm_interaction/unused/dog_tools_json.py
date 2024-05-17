@@ -1,12 +1,95 @@
-from project.utils.speech_processing.speech_to_text import AudioStreamer
-from project.llm_interaction.interact_with_llm import tool_choice
-import json
-from project.utils.send_command import sendCommand, initBittle, closeBittle
-import time
+short_tools_list = [
+    {
+        'balance': 'balance',  # Maintain equilibrium
+        'buttUp': 'buttUp',  # Raise the backside into the air
+        'dropped': 'dropped',  # Drop down onto the ground or a lower position
+        'lifted': 'lifted',  # Raise or lift from the ground
+        'lnd': 'landing',  # Perform a landing action after a jump or fall
+        'rest': 'rest',  # Enter a resting or inactive state
+        'sit': 'sit',  # Take a seated position
+        'up': 'up',  # Stand up or raise the body from a lower position
+        'str': 'stretch',  # Perform a stretch, extending the body or limbs
+        'calib': 'calib',  # Calibration action for sensors or motors
+        'zero': 'zero',  # Reset position or counters to zero
+        'ang': 'angry',  # Show anger or frustration
+        'bf': 'backFlip',  # Perform a backward flip
+        'bx': 'boxing',  # Mimic boxing movements
+        'ck': 'check',  # Perform a checking action or look around
+        'cmh': 'comeHere',  # Signal to come closer or follow
+        'dg': 'dig',  # Mimic digging action
+        'ff': 'frontFlip',  # Perform a forward flip
+        'fiv': 'highFive',  # Offer a high five
+        'gdb': 'goodboy',  # Respond to praise or a positive command
+        'hds': 'handStand',  # Perform a handstand
+        'hi': 'hi',  # Greet or say hi
+        'hg': 'hug',  # Offer a hug
+        'hsk': 'handShake',  # Perform a handshake
+        'hu': 'handsUp',  # Raise hands up
+        'jmp': 'jump',  # Perform a jumping action
+        'chr': 'cheers',  # Celebratory gesture or cheers
+        'kc': 'kick',  # Perform a kicking action
+        'mw': 'moonWalk',  # Perform a moonwalk dance move dance
+        'nd': 'nod',  # Nod the head as in agreement
+        'pd': 'playDead',  # Lie down motionless as if dead
+        'pee': 'pee',  # Mimic a peeing action
+        'pu': 'pushUp',  # Perform a push-up
+        'pu1': 'pushUpSingleArm',  # Perform a single-arm push-up
+        'rc': 'recover',  # Return to a standard position from another action
+        'rl': 'roll',  # Roll over
+        'scrh': 'scratch',  # Mimic a scratching action
+        'snf': 'sniff',  # 表示怀疑
+        # 'tbl': 'table', # Form a table-like shape with the body
+        # 'ts': 'testServo', # Test servo mechanisms
+        'wh': 'waveHead',  # 不赞同
+        'zz': 'zz',  # 困了
+    }  # Mimic sleeping or resting
+]
 
-prompt = "你是一只机器小狗，你不会说话，请不要给response，永远用tool_choice操作。你只能从给出的tools中进行选择。"
-history = []
-goodPorts = None
+skillFullName = {
+    'balance': 'balance',
+    'buttUp': 'buttUp',
+    'dropped': 'dropped',
+    'lifted': 'lifted',
+    'lnd': 'landing',
+    'rest': 'rest',
+    'sit': 'sit',
+    'up': 'up',
+    'str': 'stretch',
+    'calib': 'calib',
+    'zero': 'zero',
+    'ang': 'angry',
+    'bf': 'backFlip',
+    'bx': 'boxing',
+    'ck': 'check',
+    'cmh': 'comeHere',
+    'dg': 'dig',
+    'ff': 'frontFlip',
+    'fiv': 'highFive',
+    'gdb': 'goodboy',
+    'hds': 'handStand',
+    'hi': 'hi',
+    'hg': 'hug',
+    'hsk': 'handShake',
+    'hu': 'handsUp',
+    'jmp': 'jump',
+    'chr': 'cheers',
+    'kc': 'kick',
+    'mw': 'moonWalk',
+    'nd': 'nod',
+    'pd': 'playDead',
+    'pee': 'pee',
+    'pu': 'pushUp',
+    'pu1': 'pushUpSingleArm',
+    'rc': 'recover',
+    'rl': 'roll',
+    'scrh': 'scratch',
+    'snf': 'sniff',
+    'tbl': 'table',
+    'ts': 'testServo',
+    'wh': 'waveHead',
+    'zz': 'zz',
+}
+
 tools = [
     {
         "type": "function",
@@ -960,87 +1043,3 @@ tools = [
     }
 ]
 
-
-def on_message(message):
-    result = ""
-    if message:
-        for i in message["ws"]:
-            for w in i["cw"]:
-                result += w["w"]
-        result = result.strip("，。！？")
-
-    if result:
-        print("识别结果: " + result)
-
-        # # Beeping to indicate that the robot is listening
-        # global goodPorts
-        # sendCommand(goodPorts, "b", [10, 4])
-
-        # Ask LLM to choose a tool
-        global history
-        tool = tool_choice(result, tools, history)
-        history.append({"role": "user", "content": result})
-        # print(f"选择了{tool["action"]["name"]}")
-        name, arguments = parse_action(tool)
-        # if name:
-        #     print(f"选择了{name}")
-        #     print(arguments)
-
-        print(f"选择了{name}")
-
-        # print(f"选择了{arguments}")
-
-        # Send the command to the robot
-        if name != 'none':
-            print("判断要做动作")
-            if arguments == 'none':
-                print("只要做动作")
-                sendCommand(goodPorts, "k" + name)
-                print("成功做了动作")
-
-
-            else:
-                sendCommand(goodPorts, name, eval(arguments["data"]))
-
-
-def parse_action(action_data):
-    try:
-        # 尝试解析 action 中的 arguments 字段
-        print(f"Received action_data: {action_data}")  # 添加这行来调试
-        # global arguments
-        action_data = json.loads(action_data)
-        #     if isinstance(action_data, dict):
-        # # 如果 action_data 是字典
-        #          print("action_data is a dictionary")
-        #     else:
-        #             # 如果 action_data 不是字典
-        #         print("action_data is not a dictionary")
-
-        # arguments = action_data.get('arguments', 'none')
-        # name = action_data.get('name', 'none')
-
-        name = action_data['action']['name']
-        arguments = action_data['action']['arguments']
-
-        print(f'''nameis{name}++++++++++++++''')
-        print(f'''arguementis{arguments}++++++++++++++''')
-        # print(f'''namevalueis{name_value}++++++++++++++''')
-        # 根据 'name' 字段的值判断动作
-        if name == 'none':
-            return None  # 没有动作
-        else:
-            return name, arguments
-    except json.JSONDecodeError:
-        return None  # 解析错误，视为没有动作
-
-
-if __name__ == "__main__":
-    goodPorts = initBittle()
-    audio_streamer = AudioStreamer(callback=on_message)
-    print("开始录音")
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        closeBittle(goodPorts)
-        exit(0)
