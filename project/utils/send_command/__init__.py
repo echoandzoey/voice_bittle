@@ -1,7 +1,7 @@
 import sys
 sys.path.append('./send_command')
 
-from ardSerial import connectPort, closeAllSerial, send, keepCheckingPort, threading
+from project.utils.send_command.ardSerial import connectPort, closeAllSerial, send, keepCheckingPort, threading
 
 def initBittle():
     goodPorts = {}
