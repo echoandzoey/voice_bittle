@@ -1,18 +1,16 @@
-"""
-    无需连接硬件，用文字表示交互行为
-"""
-from project.utils.send_command import sendCommand
-from project.utils.send_command.ardSerial import goodPorts
-from project.utils.speech_processing.speech_to_text import AudioStreamer
-from project.llm_interaction.interact_with_llm import tool_choice
+from utils.send_command import *
+from utils.speech_processing.speech_to_text import AudioStreamer
+from llm_interaction.interact_with_llm import tool_choice
 import json
 import time
-from project.llm_interaction.prompt_action_list import actions
+from llm_interaction.prompt_action_list import actions
+
+history = []
+goodPorts = None
 
 # 是否连接机器狗
 is_dog_connected = False
 
-history = []
 
 def on_message(message):
     # 打印用户语音输入的识别结果
@@ -72,10 +70,16 @@ def parse_action(action_data):
 
 
 if __name__ == "__main__":
+    if is_dog_connected:
+        goodPorts = initBittle()
+        print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
     print("开始录音")
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
+        if is_dog_connected:
+            print("关闭机器狗")
+            closeBittle(goodPorts)
         exit(0)

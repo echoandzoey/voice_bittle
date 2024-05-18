@@ -23,17 +23,20 @@ This projects intends to create a demo of a voice assistant for Bittle. The voic
 ## How to use
 
 1. Run `pip install -r requirements.txt`
-2. Add your xunfei APPID, APISERCET, XF_APIKEY and OPENAI_API_KEY to `key.py`
+2. Add your xunfei APPID, APISERCET, XF_APIKEY and OPENAI_API_KEY to `config\api_info.py`
 3. Connect the robot to your computer
 4. Run `python dog.py`
 
 ## File Structure
 
-- `dog.py`: main file; modified from `ref/dog.py`
-- `key.py`: store the API keys
-- `sst.py`: speech to text; modified from `ref/iat_ws_python3.py`
-- `tools.py`: functions sending commands to the robot, used for tool calls
-- `send_command/`: a folder containing the files used to set up the serial communication with the robot and send commands to it; copied from OpenCat
+- `project\`：程序所在文件夹
+  - `main_dog.py`：主程序
+  - `llm_interaction\`：大语言模型交互相关，包括prompt设计以及与服务器的连接
+  - `utils\`：工具函数，包括语音识别、向机器人发送指令以及json格式化相关函数
+- `config\`：配置所需文件
+  - `requirements.txt`:环境所需包
+  - `api_info.py`：配置模型api所需的api_key等信息
+- `ref\`: 参考文件
 
 ## Ref
 

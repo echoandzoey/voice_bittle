@@ -1,4 +1,4 @@
-from config.api_info import ZHIPU_API_KEY
+from env_config.api_info import *
 from project.utils.json_operation import *
 from zhipuai import ZhipuAI
 
@@ -10,6 +10,7 @@ from project.llm_interaction.prompt_chat import prompt_judge
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 client = ZhipuAI(api_key=ZHIPU_API_KEY)
+
 
 def tool_choice(message):
     """
@@ -48,7 +49,6 @@ def tool_choice(message):
         # todo:历史记录
         # role_content_json("user", history)
     ]
-
 
     # 模型交互
     reply = client.chat.completions.create(

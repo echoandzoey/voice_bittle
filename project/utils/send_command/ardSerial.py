@@ -5,13 +5,13 @@ import struct
 import sys
 import time
 import logging
-from SerialCommunication import *  # module SerialCommunication.py
 import platform
 import copy
 import threading
 import os
 import config
 import glob
+from SerialCommunication import *
 
 FORMAT = '%(asctime)-15s %(name)s - %(levelname)s - %(message)s'
 '''
