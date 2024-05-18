@@ -33,7 +33,7 @@ This projects intends to create a demo of a voice assistant for Bittle. The voic
   - `main_dog.py`：主程序
   - `llm_interaction\`：大语言模型交互相关，包括prompt设计以及与服务器的连接
   - `utils\`：工具函数，包括语音识别、向机器人发送指令以及json格式化相关函数
-- `config\`：配置所需文件
+- `env_config\`：配置所需文件
   - `requirements.txt`:环境所需包
   - `api_info.py`：配置模型api所需的api_key等信息
 - `ref\`: 参考文件
