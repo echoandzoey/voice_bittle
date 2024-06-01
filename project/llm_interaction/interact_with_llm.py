@@ -1,3 +1,5 @@
+import time
+
 from env_config.api_info import *
 from project.utils.json_operation import *
 from zhipuai import ZhipuAI
@@ -19,6 +21,8 @@ def tool_choice(message):
     Tools is a list of dict describing functions.
     Return the chosen function.
     """
+    # test
+    print("tool_choice开始", time.time())
     prompts = [
         # 系统提示
         role_content_json("system", prompt_judge),

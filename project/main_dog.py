@@ -1,3 +1,5 @@
+import threading
+
 from utils.send_command import *
 from utils.speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
@@ -14,14 +16,16 @@ is_dog_connected = True
 def on_message(message):
     # 打印用户语音输入的识别结果
     result = print_user_input(message)
+    if result != "":
+        # 收到应答展示padding动作
+        padding_thread = threading.Thread(target=padding_action)
+        padding_thread.start()
 
     # Ask LLM to choose a tool
     llm_start_time = time.time()
     tool = tool_choice(result)
     llm_end_time = time.time()
     print('等待llm交互时间：', llm_end_time - llm_start_time)
-
-    # padding()
 
     global history
     history.append({"role": "user", "content": result})
@@ -77,10 +81,15 @@ def parse_action(action_data):
     except json.JSONDecodeError:
         return None  # 解析错误，视为没有动作
 
-def padding():
+def padding_action():
     # todo: padding动作，倾听别人说话
+    # test
     if is_dog_connected:
-        sendCommand(goodPorts, "k" + 'sit')
+        padding_start = time.time()
+        sendCommand(goodPorts, "k" + 'buttUp')
+        sendCommand(goodPorts, "k" + 'snf')
+        padding_end = time.time()
+        print("执行padding动作时间", padding_end - padding_start)
 
 if __name__ == "__main__":
     if is_dog_connected:
