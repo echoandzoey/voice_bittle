@@ -1,6 +1,7 @@
 from env_config.api_info import *
 from project.utils.json_operation import *
 from zhipuai import ZhipuAI
+from openai import OpenAI
 
 # 海龟汤prompt
 # from project.llm_interaction.turtle_prompt import prompt_judge
@@ -52,8 +53,8 @@ def tool_choice(message):
 
     # 模型交互
     reply = client.chat.completions.create(
-        # model="glm-4", messages=messages, tools=tools, tool_choice="auto"
         model="glm-4", messages=prompts,
+        # model='gpt-3.5-turbo', messages=prompts,
     )
 
     try:

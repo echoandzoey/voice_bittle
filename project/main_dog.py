@@ -9,15 +9,20 @@ history = []
 goodPorts = None
 
 # 是否连接机器狗
-is_dog_connected = False
-
+is_dog_connected = True
 
 def on_message(message):
     # 打印用户语音输入的识别结果
     result = print_user_input(message)
 
     # Ask LLM to choose a tool
+    llm_start_time = time.time()
     tool = tool_choice(result)
+    llm_end_time = time.time()
+    print('等待llm交互时间：', llm_end_time - llm_start_time)
+
+    # padding()
+
     global history
     history.append({"role": "user", "content": result})
 
@@ -26,6 +31,7 @@ def on_message(message):
     action_info = actions[name]
     print(f"选择了{name}，意思是{action_info}")
 
+
     # 需连接机器狗运行
     if is_dog_connected:
         # Send the command to the robot
@@ -33,8 +39,11 @@ def on_message(message):
             print("判断要做动作")
             if arguments == 'none':
                 print("只要做动作")
+                # test
+                action_start_time = time.time()
                 sendCommand(goodPorts, "k" + name)
-                print("成功做了动作")
+                action_end_time = time.time()
+                print("成功做了动作", action_end_time - action_start_time)
             else:
                 sendCommand(goodPorts, name, eval(arguments["data"]))
 
@@ -68,6 +77,10 @@ def parse_action(action_data):
     except json.JSONDecodeError:
         return None  # 解析错误，视为没有动作
 
+def padding():
+    # todo: padding动作，倾听别人说话
+    if is_dog_connected:
+        sendCommand(goodPorts, "k" + 'sit')
 
 if __name__ == "__main__":
     if is_dog_connected:
@@ -75,6 +88,7 @@ if __name__ == "__main__":
         print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
     print("开始录音")
+    # todo: 检测到语音输入，反应动作
     try:
         while True:
             time.sleep(1)
