@@ -42,7 +42,7 @@ def main():
                 timeout_flag = True
                 start_time = time.time()  # 记录开始计时的时间
 
-                # 等待2秒并检查期间是否有新的语音输入
+                # 等待一定时间并检查期间是否有新的语音输入
                 while (time.time() - start_time) < WAIT_TIME:
                     frame = stream.read(frame_size, exception_on_overflow=False)
                     if is_speech(frame, sample_rate):

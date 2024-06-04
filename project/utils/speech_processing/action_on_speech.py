@@ -1,9 +1,10 @@
 # ref:使用Python进行语音活动检测（VAD）
 # https://cloud.tencent.com/developer/article/2369279
 
-import pyaudio
 import threading
 import time
+import webrtcvad
+import pyaudio
 
 # 音频参数设置
 CHUNK = 1024  # 每次读取的音频块大小
@@ -12,16 +13,10 @@ CHANNELS = 1
 RATE = 16000  # 采样率
 THRESHOLD = 2000000  # 声音强度阈值，根据实际情况调整
 
-import webrtcvad
-import pyaudio
+WAIT_TIME = 2  # 若一定时间不再说话，则判定这段话结束，单位为s
 
 
-def on_sound_detected():
-    """当检测到声音时执行的动作"""
-    print("检测到人声输入！")
-
-
-def is_speech(frame, sample_rate=16000, mode=1):
+def is_speech(frame, sample_rate=16000, mode=3):
     # mode 0-3, 宽松到严格
     vad = webrtcvad.Vad(mode)
     return vad.is_speech(frame, sample_rate)
@@ -29,24 +24,6 @@ def is_speech(frame, sample_rate=16000, mode=1):
 
 def listen_for_voice(callback):
     """监听麦克风输入，检测人声活动"""
-    # p = pyaudio.PyAudio()
-    # stream = p.open(format=FORMAT,
-    #                 channels=CHANNELS,
-    #                 rate=RATE,
-    #                 input=True,
-    #                 frames_per_buffer=CHUNK)
-    #
-    # print("开始监听麦克风...")
-    # while True:
-    #     data = stream.read(CHUNK)
-    #     # 计算数据的强度（简单方法，适用于演示）
-    #     rms = abs(int.from_bytes(data, byteorder='little'))
-    #     if rms > THRESHOLD:
-    #         callback()  # 声音超过阈值，执行回调函数
-    # stream.stop_stream()
-    # stream.close()
-    # p.terminate()
-
     # 初始化pyaudio和音频流参数
     p = pyaudio.PyAudio()
     sample_rate = 16000
@@ -61,14 +38,31 @@ def listen_for_voice(callback):
 
     print("开始实时录音，检测说话活动...")
 
+    voice_flag = False
     try:
         while True:
             frame = stream.read(frame_size, exception_on_overflow=False)
             if is_speech(frame, sample_rate):
-                callback()  # 检测到说话活动，执行回调函数
+                # 如果检测到语音，则打印一个"#"
+                if not voice_flag:
+                    voice_flag = True
+                    callback()
+                    print("正在说话", end="")
+                print("#", end="")
+            elif voice_flag:  # 如果检测到非语音，则等待2s判定这段话是否结束
+                # 设置一个标志表示准备开始计时
+                timeout_flag = True
+                start_time = time.time()  # 记录开始计时的时间
 
-            else:
-                print("未检测到说话活动")
+                # 等待一定时间并检查期间是否有新的语音输入
+                while (time.time() - start_time) < WAIT_TIME:
+                    frame = stream.read(frame_size, exception_on_overflow=False)
+                    if is_speech(frame, sample_rate):
+                        timeout_flag = False  # 如果有语音输入，则取消计时
+                        break
+                if timeout_flag:  # 如果一定时间内都没有语音输入
+                    print("end")
+                    voice_flag = False
     except KeyboardInterrupt:
         print("\n录音结束")
     finally:
@@ -77,8 +71,13 @@ def listen_for_voice(callback):
         p.terminate()
 
 
+def action_on_speech():
+    # 测试
+    print("小狗执行倾听动作")
+
+
 if __name__ == "__main__":
-    voice_thread = threading.Thread(target=listen_for_voice, args=(on_sound_detected,))
+    voice_thread = threading.Thread(target=listen_for_voice(callback=action_on_speech))
     voice_thread.daemon = True
     voice_thread.start()
 
