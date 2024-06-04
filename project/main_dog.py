@@ -1,5 +1,4 @@
 import threading
-
 from utils.send_command import *
 from utils.speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
@@ -35,7 +34,6 @@ def on_message(message):
     action_info = actions[name]
     print(f"选择了{name}，意思是{action_info}")
 
-
     # 需连接机器狗运行
     if is_dog_connected:
         # Send the command to the robot
@@ -45,7 +43,7 @@ def on_message(message):
                 print("只要做动作")
                 # test
                 action_start_time = time.time()
-                sendCommand(goodPorts, "k" + name)
+                send_dog_aciton(name)
                 action_end_time = time.time()
                 print("成功做了动作", action_end_time - action_start_time)
             else:
@@ -82,14 +80,27 @@ def parse_action(action_data):
         return None  # 解析错误，视为没有动作
 
 def padding_action():
-    # todo: padding动作，倾听别人说话
+    # todo: padding动作，小狗思考如何作出反应
     # test
     if is_dog_connected:
         padding_start = time.time()
-        sendCommand(goodPorts, "k" + 'buttUp')
-        sendCommand(goodPorts, "k" + 'snf')
+        send_dog_aciton("buttUp")
         padding_end = time.time()
         print("执行padding动作时间", padding_end - padding_start)
+
+def listening_action():
+    # todo: listening动作，倾听别人说话
+    # test
+    if is_dog_connected:
+        listening_start = time.time()
+        send_dog_aciton("ck")
+        listening_end = time.time()
+        print("执行listening动作时间", listening_end - listening_start)
+
+# 发送小狗动作命令
+def send_dog_aciton(action_name):
+    sendCommand(goodPorts, "k" + action_name)
+
 
 if __name__ == "__main__":
     if is_dog_connected:
@@ -97,7 +108,13 @@ if __name__ == "__main__":
         print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
     print("开始录音")
-    # todo: 检测到语音输入，反应动作
+    # # todo: 检测到语音输入，倾听动作
+    # if detect_audio_input():
+    #     print("检测到语音输入，执行小狗倾听动作")
+    #     listening_thread = threading.Thread(target=listening_action)
+    #     listening_thread.start()
+
+
     try:
         while True:
             time.sleep(1)
