@@ -15,14 +15,7 @@ from project.llm_interaction.prompt_chat import prompt_judge
 client = ZhipuAI(api_key=ZHIPU_API_KEY)
 
 
-def tool_choice(message):
-    """
-    Send the message to the model with a list of tools and prompt the model to use the tools.
-    Tools is a list of dict describing functions.
-    Return the chosen function.
-    """
-    # test
-    print("tool_choice开始", time.time())
+def construct_prompts(user_input):
     prompts = [
         # 系统提示
         role_content_json("system", prompt_judge),
@@ -38,10 +31,10 @@ def tool_choice(message):
                          "他在对我讲话，我没有吃饭",
                          "wh"),
 
-        user_fewshot_json("所以这个小学生是不是最后在老师发现的办公室里面"),
-        dog_fewshot_json("game",
-                         "他在和我玩海龟汤，这个符合正确答案，他答对了",
-                         "jmp"),
+        # user_fewshot_json("所以这个小学生是不是最后在老师发现的办公室里面"),
+        # dog_fewshot_json("game",
+        #                  "他在和我玩海龟汤，这个符合正确答案，他答对了",
+        #                  "jmp"),
 
         user_fewshot_json("跳个舞吧"),
         dog_fewshot_json("chat",
@@ -49,11 +42,22 @@ def tool_choice(message):
                          "mw"),
 
         # 用户输入
-        role_content_json("user", message)
+        role_content_json("user", user_input)
 
         # todo:历史记录
         # role_content_json("user", history)
     ]
+    return prompts
+
+
+def tool_choice(user_input):
+    """
+    Send the message to the model with a list of tools and prompt the model to use the tools.
+    Tools is a list of dict describing functions.
+    Return the chosen function.
+    """
+    # 构造prompts
+    prompts = construct_prompts(user_input)
 
     # 模型交互
     reply = client.chat.completions.create(
