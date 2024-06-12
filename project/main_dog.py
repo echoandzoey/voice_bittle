@@ -11,8 +11,9 @@ goodPorts = None
 # 是否连接机器狗
 is_dog_connected = True
 
-
 def on_message(message):
+    # todo:考虑加入唤醒词？
+
     # 打印用户语音输入的识别结果
     user_input = print_user_input(message)
     # 等待llm应答，做出padding动作，表示正在思考
@@ -41,7 +42,7 @@ def print_user_input(message):
         for i in message["ws"]:
             for w in i["cw"]:
                 result += w["w"]
-        result = result.strip("，。！？")
+        result = result.strip(". ，。！？")
         if result:
             print("识别结果: " + result)
     return result
@@ -90,7 +91,7 @@ def padding_action():
     print("小狗正在思考...")
     if is_dog_connected:
         padding_start = time.time()
-        send_dog_action("buttUp")
+        send_dog_action("reply")
         padding_end = time.time()
         print("执行padding动作时间", padding_end - padding_start)
 
@@ -108,18 +109,19 @@ def padding_action():
 
 # 发送小狗动作命令
 def send_dog_action(action_name):
-    sendCommand(goodPorts, "k" + action_name)
+    if is_dog_connected:
+        sendCommand(goodPorts, "k" + action_name)
 
 
 if __name__ == "__main__":
-    global is_first_run
-    is_first_run = True
+    # global is_first_run
+    # is_first_run = True
     if is_dog_connected:
         goodPorts = initBittle()
         print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
     # 开始录音时，示意用户可以说话了
-    send_dog_action("hi")
+    send_dog_action("up")
 
     # # todo: 检测到语音输入，执行倾听动作?
     # voice_thread = threading.Thread(target=listen_for_voice(callback=listening_action))
