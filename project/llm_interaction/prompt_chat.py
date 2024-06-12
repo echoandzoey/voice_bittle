@@ -17,5 +17,4 @@ prompt_judge = f'''
   }}
 }}
 2、在你回复的json中，关于action的name属性，请严格在{actions}里面选择
-3、当你判断到用户不是在对你说话的时候，将name属性设置为"none"
 '''

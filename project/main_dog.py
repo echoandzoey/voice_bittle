@@ -3,7 +3,6 @@ from utils.speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
 import json
 from llm_interaction.prompt_action_list import actions
-from project.utils.speech_processing.test.action_on_speech import *
 
 history = []
 goodPorts = None
@@ -31,7 +30,7 @@ def llm_interaction(user_input):
     llm_start_time = time.time()
     tool = tool_choice(user_input)
     llm_end_time = time.time()
-    print('等待llm交互时间：', llm_end_time - llm_start_time)
+    print('等待llm交互耗时：', llm_end_time - llm_start_time)
     return tool
 
 
@@ -63,7 +62,7 @@ def dog_reaction(tool):
                 action_start_time = time.time()
                 send_dog_action(name)
                 action_end_time = time.time()
-                print("成功做了动作", action_end_time - action_start_time)
+                print("执行应答动作耗时：", action_end_time - action_start_time)
             else:
                 sendCommand(goodPorts, name, eval(arguments["data"]))
 
@@ -93,19 +92,7 @@ def padding_action():
         padding_start = time.time()
         send_dog_action("reply")
         padding_end = time.time()
-        print("执行padding动作时间", padding_end - padding_start)
-
-
-# def listening_action():
-#     # todo: listening动作，倾听别人说话
-#     # test: 'ck': 检查周围环境或情况
-#     print("小狗正在倾听...")
-#     if is_dog_connected:
-#         listening_start = time.time()
-#         send_dog_action("ck")
-#         listening_end = time.time()
-#         print("执行listening动作时间", listening_end - listening_start)
-
+        print("执行padding动作耗时", padding_end - padding_start)
 
 # 发送小狗动作命令
 def send_dog_action(action_name):
@@ -122,11 +109,6 @@ if __name__ == "__main__":
     audio_streamer = AudioStreamer(callback=on_message)
     # 开始录音时，示意用户可以说话了
     send_dog_action("up")
-
-    # # todo: 检测到语音输入，执行倾听动作?
-    # voice_thread = threading.Thread(target=listen_for_voice(callback=listening_action))
-    # voice_thread.daemon = True
-    # voice_thread.start()
 
     try:
         while True:
