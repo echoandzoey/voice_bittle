@@ -2,14 +2,14 @@ import threading
 import websocket
 import pyaudio
 import time
-
+import sys
 from datetime import datetime
 import hashlib
 import base64
 import hmac
 from urllib.parse import urlencode
 from wsgiref.handlers import format_date_time
-from env_config.api_info import *
+from api_info import *
 import json
 
 # import logging
@@ -36,7 +36,7 @@ class AudioStreamer:
         self.stream = self.audio.open(format=FORMAT, channels=CHANNELS,
                                       rate=RATE, input=True,
                                       frames_per_buffer=CHUNK)
-        print("开始录音...")
+    
         self.reconnect_thread = threading.Thread(target=self.handle_reconnection)
         self.reconnect_thread.daemon = True
         self.reconnect_thread.start()

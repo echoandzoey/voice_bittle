@@ -2,4 +2,5 @@ openai
 pyserial
 pyaudio
 websocket-client
+groq
 # zhipuai

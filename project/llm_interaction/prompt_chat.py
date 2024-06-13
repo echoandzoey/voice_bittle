@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from project.llm_interaction.prompt_action_list import actions
+from llm_interaction.prompt_action_list import actions
 """
     仅让小狗聊天的提示词，用于语音输入测试
 """

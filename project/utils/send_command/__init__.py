@@ -1,8 +1,10 @@
 import sys
 
-sys.path.append('./send_command')
+# sys.path.append('./send_command')
 
-from project.utils.send_command.ardSerial import *
+sys.path.append('K:\\UnityProjects2024\\voice_bittle\\project\\utils\\send_command')
+
+from utils.send_command.ardSerial import *
 
 
 def initBittle():

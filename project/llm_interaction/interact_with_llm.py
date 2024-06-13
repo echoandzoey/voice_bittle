@@ -1,19 +1,19 @@
 import time
 
-from env_config.api_info import *
-from project.utils.json_operation import *
+from api_info import *
+from utils.json_operation import *
 from zhipuai import ZhipuAI
 from openai import OpenAI
-
+from groq import Groq
 # 海龟汤prompt
 # from project.llm_interaction.turtle_prompt import prompt_judge
 
 # 聊天prompt
-from project.llm_interaction.prompt_chat import prompt_judge
+from llm_interaction.prompt_chat import prompt_judge
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
-client = ZhipuAI(api_key=ZHIPU_API_KEY)
-
+# client = ZhipuAI(api_key=ZHIPU_API_KEY)
+client = Groq(api_key=GROQ_API_KEY)
 
 def construct_prompts(user_input):
     prompts = [
@@ -21,25 +21,25 @@ def construct_prompts(user_input):
         role_content_json("system", prompt_judge),
 
         # 对话样例
-        user_fewshot_json("看上去不错"),
-        dog_fewshot_json("chat",
-                         "他不是在对我讲话",
-                         "none"),
+        # user_fewshot_json("看上去不错"),
+        # dog_fewshot_json("chat",
+        #                  "他不是在对我讲话",
+        #                  "none"),
 
-        user_fewshot_json("看上去不错"),
-        dog_fewshot_json("chat",
-                         "他在对我讲话，我没有吃饭",
-                         "wh"),
+        # user_fewshot_json("看上去不错"),
+        # dog_fewshot_json("chat",
+        #                  "他在对我讲话，我没有吃饭",
+        #                  "wh"),
 
         # user_fewshot_json("所以这个小学生是不是最后在老师发现的办公室里面"),
         # dog_fewshot_json("game",
         #                  "他在和我玩海龟汤，这个符合正确答案，他答对了",
         #                  "jmp"),
 
-        user_fewshot_json("跳个舞吧"),
-        dog_fewshot_json("chat",
-                         "他在对我讲话，我会跳舞",
-                         "mw"),
+        # user_fewshot_json("跳个舞吧"),
+        # dog_fewshot_json("chat",
+        #                  "他在对我讲话，我会跳舞",
+        #                  "mw"),
 
         # 用户输入
         role_content_json("user", user_input)
@@ -61,16 +61,23 @@ def tool_choice(user_input):
 
     # 模型交互
     reply = client.chat.completions.create(
-        model="glm-4", messages=prompts,
+        # model="glm-4", messages=prompts,
         # model='gpt-3.5-turbo', messages=prompts,
+        model="llama3-8b-8192", messages=prompts,
     )
+    
+
+
+
 
     try:
-        # 结果解析
+        # 选择了返回工具
         choice = reply.choices[0].message.content
         # choice = completion.choices[0].message.tool_calls[0].function
-        print(f"-------------{choice}")
+        print(f"-------------\n{choice}\n-------------")
         fixed_choice = ensure_json_wrapped_with_braces(choice)
+   
+        
 
     except Exception as e:
         fixed_choice = "none"

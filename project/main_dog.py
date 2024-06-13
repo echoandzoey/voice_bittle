@@ -1,14 +1,17 @@
-from utils.send_command import *
+# from utils.send_command import *
+import sys
 from utils.speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
 import json
 from llm_interaction.prompt_action_list import actions
-
+from utils.send_command import sendCommand, initBittle, closeBittle
+import time
+import threading
 history = []
 goodPorts = None
 
 # 是否连接机器狗
-is_dog_connected = True
+is_dog_connected = False
 
 def on_message(message):
     # todo:考虑加入唤醒词？
@@ -28,9 +31,11 @@ def on_message(message):
 def llm_interaction(user_input):
     # Ask LLM to choose a tool
     llm_start_time = time.time()
+    print("开始发送llm请求时间" + str(llm_start_time - start_time))  # 将浮点数转换为字符串
     tool = tool_choice(user_input)
     llm_end_time = time.time()
-    print('等待llm交互耗时：', llm_end_time - llm_start_time)
+    print("得到llm请求返回时间" + str(llm_end_time - start_time))  # 将浮点数转换为字符串
+    print('等待llm交互耗时:', llm_end_time - llm_start_time)
     return tool
 
 
@@ -87,7 +92,7 @@ def parse_action(action_data):
 def padding_action():
     # todo: padding动作，小狗思考如何作出反应
     # test
-    print("小狗正在思考...")
+    print("小狗正在思考...\n")
     if is_dog_connected:
         padding_start = time.time()
         send_dog_action("reply")
@@ -107,8 +112,10 @@ if __name__ == "__main__":
         goodPorts = initBittle()
         print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
+    start_time=time.time()
     # 开始录音时，示意用户可以说话了
-    send_dog_action("up")
+    if is_dog_connected:
+        send_dog_action("up")
 
     try:
         while True:
