@@ -5,8 +5,10 @@ from llm_interaction.interact_with_llm import tool_choice
 import json
 from llm_interaction.prompt_action_list import actions
 from utils.send_command import sendCommand, initBittle, closeBittle
+from utils.ParseTools import parse_action,parse_combo_actions
 import time
 import threading
+import os
 history = []
 goodPorts = None
 
@@ -20,12 +22,15 @@ def on_message(message):
     user_input = print_user_input(message)
     # 等待llm应答，做出padding动作，表示正在思考
     if user_input != "":
-        padding_thread = threading.Thread(target=padding_action)
+        ##暂时取消padding动作
+        # padding_thread = threading.Thread(target=padding_action)
+        padding_thread = threading.Thread()
         padding_thread.start()
         # 与llm交互
         tool = llm_interaction(user_input)
         # 小狗做出反应
-        dog_reaction(tool)
+        # dog_reaction(tool)
+        dog_reaction_combo(tool)
 
 
 def llm_interaction(user_input):
@@ -53,40 +58,40 @@ def print_user_input(message):
 
 
 # 解析小狗动作, 并发送给机器狗
-def dog_reaction(tool):
-    name, arguments = parse_action(tool)
-    action_info = actions[name]
-    print(f"选择了{name}，意思是{action_info}")
-    if is_dog_connected:
-        # Send the command to the robot
-        if name != 'none':
-            # print("判断要做动作")
-            if arguments == 'none':
-                # print("只要做动作")
-                # test
-                action_start_time = time.time()
-                send_dog_action(name)
-                action_end_time = time.time()
-                print("执行应答动作耗时：", action_end_time - action_start_time)
-            else:
-                sendCommand(goodPorts, name, eval(arguments["data"]))
+# def dog_reaction(tool):
+#     name, arguments = parse_action(tool)
+#     action_info = actions[name]
+#     print(f"选择了{name}，意思是{action_info}")
+#     if is_dog_connected:
+#         # Send the command to the robot
+#         if name != 'none':
+#             # print("判断要做动作")
+#             if arguments == 'none':
+#                 # print("只要做动作")
+#                 # test
+#                 action_start_time = time.time()
+#                 send_dog_action(name)
+#                 action_end_time = time.time()
+#                 print("执行应答动作耗时：", action_end_time - action_start_time)
+#             else:
+#                 sendCommand(goodPorts, name, eval(arguments["data"]))
 
+##支持组合动作版
+def dog_reaction_combo(tool):
+    # actions_list = []
+    actions_list = parse_combo_actions(tool)
+    print(f"待做列表里面有不为零的参数: {len([action for action in actions_list if action])}")
+    while actions_list :
+        action = actions_list.pop(0)  # 取出第一个动作
+        if action == '':
+            break
+        print(f"Processing action: {action}")
+        send_dog_action(action)
+        
+        
 
-def parse_action(action_data):
-    try:
-        # print(f"Received action_data: {action_data}")  # 添加这行来调试
-        # 尝试解析 action 中的 arguments 字段
-        action_data = json.loads(action_data)
-        name = action_data['action']['name']
-        arguments = action_data['action']['arguments']
+    
 
-        # 根据 'name' 字段的值判断动作
-        if name == 'none':
-            return None  # 没有动作
-        else:
-            return name, arguments
-    except json.JSONDecodeError:
-        return None  # 解析错误，视为没有动作
 
 
 def padding_action():
@@ -95,7 +100,7 @@ def padding_action():
     print("小狗正在思考...\n")
     if is_dog_connected:
         padding_start = time.time()
-        send_dog_action("reply")
+        # send_dog_action("reply")
         padding_end = time.time()
         print("执行padding动作耗时", padding_end - padding_start)
 
@@ -108,19 +113,27 @@ def send_dog_action(action_name):
 if __name__ == "__main__":
     # global is_first_run
     # is_first_run = True
-    if is_dog_connected:
-        goodPorts = initBittle()
-        print("连接机器狗")
-    audio_streamer = AudioStreamer(callback=on_message)
-    start_time=time.time()
-    # 开始录音时，示意用户可以说话了
-    if is_dog_connected:
-        send_dog_action("up")
+    original_path = os.getcwd()
+    isopen = True
+    if isopen:
+        if is_dog_connected:
+            goodPorts = initBittle()
+            print("连接机器狗")
+        audio_streamer = AudioStreamer(callback=on_message)
+        start_time=time.time()
+        # 开始录音时，示意用户可以说话了
+        if is_dog_connected:
+            send_dog_action("scrh")
 
     try:
+    # 程序代码
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
+        print("键盘中断，停止运行...")
+    finally:
+        os.chdir(original_path)  # 恢复原路径
+        print("恢复原路径")
         if is_dog_connected:
             print("关闭机器狗")
             closeBittle(goodPorts)
