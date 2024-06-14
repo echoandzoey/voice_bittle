@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1da8c6b5-25b6-44a8-9c84-e5d7a9695dab" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/llm_interaction.py" beforeDir="false" afterPath="$PROJECT_DIR$/llm_interaction.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_dog.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_dog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_no_hardware.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/json_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/json_operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/speech_processing/speech_to_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/speech_processing/speech_to_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/speech_processing/test_speech.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/speech_processing/test_speech.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/main_dog.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main_dog.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/utils/speech_processing/speech_to_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/speech_processing/speech_to_text.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/log/log.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/log/log_pic1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ref/log/log_pic2.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +27,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feature/padding-action" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -53,6 +58,7 @@
   &quot;keyToString&quot;: {
     &quot;Python.audiofile_to_text (1).executor&quot;: &quot;Run&quot;,
     &quot;Python.file_to_text.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_dog.executor&quot;: &quot;Run&quot;,
     &quot;Python.main_no_dog.executor&quot;: &quot;Run&quot;,
     &quot;Python.main_no_hardware.executor&quot;: &quot;Run&quot;,
     &quot;Python.no_dog.executor&quot;: &quot;Run&quot;,
@@ -77,8 +83,8 @@
       <recent name="D:\Desktop\myPetoi\utils\speech_processing" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.speech_to_text">
-    <configuration name="audiofile_to_text (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main_dog">
+    <configuration name="main_dog" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPetoi" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -87,11 +93,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/audiofile_to_text.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/main_dog.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -190,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_dog" />
         <item itemvalue="Python.speech_to_text" />
         <item itemvalue="Python.main_no_dog" />
         <item itemvalue="Python.test_visualization_speech" />
         <item itemvalue="Python.test_speech" />
-        <item itemvalue="Python.audiofile_to_text (1)" />
       </list>
     </recent_temporary>
   </component>

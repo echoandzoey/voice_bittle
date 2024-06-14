@@ -65,10 +65,6 @@ def tool_choice(user_input):
         # model='gpt-3.5-turbo', messages=prompts,
         model="llama3-8b-8192", messages=prompts,
     )
-    
-
-
-
 
     try:
         # 选择了返回工具

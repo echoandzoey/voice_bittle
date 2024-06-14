@@ -11,7 +11,7 @@ history = []
 goodPorts = None
 
 # 是否连接机器狗
-is_dog_connected = False
+is_dog_connected = True
 
 def on_message(message):
     # todo:考虑加入唤醒词？

@@ -58,7 +58,7 @@ class AudioStreamer:
     def on_error(self, ws, error):
         print(f"Error: {error}")
 
-    def on_close(self, ws, close_status_code, close_msg):
+    def on_close(self, ws):
         # print("### closed ###")
         pass
 
