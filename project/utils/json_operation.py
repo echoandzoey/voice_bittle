@@ -15,7 +15,6 @@ def role_content_json(role, content):
     return {"role": role, "content": content}
 
 
-
 # 用户发言提示构造函数
 def user_fewshot_json(user_speech):
     content = f"User:{user_speech}"
