@@ -7,6 +7,8 @@ from openai import OpenAI
 from groq import Groq
 # 海龟汤prompt
 # from project.llm_interaction.turtle_prompt import prompt_judge
+from utils.testTime import timing_decorator
+
 
 # 聊天prompt
 from llm_interaction.prompt_chat import prompt_judge
@@ -36,7 +38,7 @@ def construct_prompts(user_input):
     return prompts
 
 
-
+@timing_decorator
 def tool_choice(user_input):
     """
     Send the message to the model with a list of tools and prompt the model to use the tools.

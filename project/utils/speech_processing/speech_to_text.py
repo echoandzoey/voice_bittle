@@ -36,7 +36,7 @@ class AudioStreamer:
         self.stream = self.audio.open(format=FORMAT, channels=CHANNELS,
                                       rate=RATE, input=True,
                                       frames_per_buffer=CHUNK)
-    
+        print("开始录音...")
         self.reconnect_thread = threading.Thread(target=self.handle_reconnection)
         self.reconnect_thread.daemon = True
         self.reconnect_thread.start()
