@@ -24,10 +24,11 @@ actions = {
     'dg': "Mimic digging action",  # 模拟挖掘动作
 
     # 和人交互
+    'come': "Signal to come closer or follow",  # 示意靠近或跟随
     'hi': "Greet or say hi",  # 打招呼或示意问候
     'hg': "Offer a hug",  # 提供拥抱
     'hsk': "Perform a handshake",  # 执行握手
-    'cmh': "Signal to come closer or follow",  # 示意靠近或跟随
+    # 'cmh': "Signal to come closer or follow",  # 示意靠近或跟随
 
     # 小狗答复
     # 积极

@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="1da8c6b5-25b6-44a8-9c84-e5d7a9695dab" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/InstinctBittle.h" beforeDir="false" afterPath="$PROJECT_DIR$/InstinctBittle.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/main_dog.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main_dog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/utils/speech_processing/speech_to_text.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/speech_processing/speech_to_text.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/log/log.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/log/log_pic1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ref/log/log_pic2.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,6 +216,17 @@
       <updated>1715754627001</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
