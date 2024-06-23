@@ -1,14 +1,8 @@
 # from utils.send_command import *
-import sys
-from utils import *
 from speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
-import json
-from llm_interaction.prompt_action_list import actions
 from utils.send_command import sendCommand, initBittle, closeBittle
-from utils.ParseTools import parse_action, parse_combo_actions
 import time
-import threading
 import os
 from print_format import colored_output
 import logging
@@ -21,8 +15,6 @@ is_dog_connected = True
 
 
 def on_message(message):
-    # todo:考虑加入唤醒词？
-
     # 打印用户语音输入的识别结果
     user_input = print_user_input(message)
     # 等待llm应答，做出padding动作，表示正在思考
@@ -33,10 +25,11 @@ def on_message(message):
         # padding_thread.start()
 
         # 与llm交互
-        tool = tool_choice(user_input)
-        # 小狗做出反应
-        # dog_reaction(tool)
-        dog_reaction_combo(tool)
+        choice = tool_choice(user_input)
+        action_list = choice
+
+        for action in action_list:
+            send_dog_action(action)
 
 
 # 打印用户语音识别结果
@@ -60,39 +53,6 @@ def print_user_input(message):
 
     return result
 
-
-# 解析小狗动作, 并发送给机器狗
-# def dog_reaction(tool):
-#     name, arguments = parse_action(tool)
-#     action_info = actions[name]
-#     print(f"选择了{name}，意思是{action_info}")
-#     if is_dog_connected:
-#         # Send the command to the robot
-#         if name != 'none':
-#             # print("判断要做动作")
-#             if arguments == 'none':
-#                 # print("只要做动作")
-#                 # test
-#                 action_start_time = time.time()
-#                 send_dog_action(name)
-#                 action_end_time = time.time()
-#                 print("执行应答动作耗时：", action_end_time - action_start_time)
-#             else:
-#                 sendCommand(goodPorts, name, eval(arguments["data"]))
-
-# 支持组合动作版
-def dog_reaction_combo(tool):
-    # actions_list = parse_combo_actions(tool)
-    # print(f"待做列表里面有不为零的参数: {len([action for action in actions_list if action])}")
-
-    # 预处理，去除所有空格，字符串按逗号分割成列表
-    actions_list = tool.replace(" ", "").split(",")
-    while tool:
-        action = actions_list.pop(0)  # 取出第一个动作
-        if action == '':
-            break
-        # print(f"Processing action: {action}")
-        send_dog_action(action)
 
 
 # 发送小狗动作命令

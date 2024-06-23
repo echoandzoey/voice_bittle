@@ -12,6 +12,7 @@ from utils.test_time import timing
 # 聊天prompt
 from llm_interaction.prompt_chat import prompt_judge
 from utils.print_format import colored_output
+from utils.ParseTools import parse_action_list
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 # client = ZhipuAI(api_key=ZHIPU_API_KEY)
@@ -25,10 +26,14 @@ def construct_prompts(user_input):
         #
         # 对话样例
         role_content_json("user","小狗小狗快过来"),
-        role_content_json("assistant","come,hi"),
+        dog_fewshot_json("主人在叫我，我要过去打个招呼", "come,hi"),
+        # role_content_json("assistant","come,hi"),
         #
-        role_content_json("user","你今天吃饭了吗"),
-        role_content_json("assistant","wh"),
+        role_content_json("user","1+1等于几"),
+        dog_fewshot_json("1+1=2，所以我应该做2次cnt","cnt,cnt"),
+
+        role_content_json("user", "8-7等于几"),
+        dog_fewshot_json("8-7=1，所以我应该做1次cnt", "cnt"),
         #
         # role_content_json("user","我这里有好吃的"),
         # role_content_json("assistant","gdb,hsk"),
@@ -60,6 +65,11 @@ def tool_choice(user_input):
     # choice = completion.choices[0].message.tool_calls[0].function
     colored_output("🦴 回复内容：" + choice, "yellow")
 
+    # 解析出动作列表
+    tool_list = parse_action_list(choice)
+
+    return tool_list
+
     # try:
     #     # 选择了返回工具
     #     choice = reply.choices[0].message.content
@@ -70,8 +80,6 @@ def tool_choice(user_input):
     # except Exception as e:
     #     fixed_choice = "none"
     #     print("小狗想说人话，但是失败了，因为建国后动物不许成精。")
-
-    return choice
 
 
 

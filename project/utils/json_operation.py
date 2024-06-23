@@ -23,31 +23,50 @@ def user_fewshot_json(user_speech):
 
 
 # 小狗回复样例构造函数
-def dog_fewshot_json(type_, thoughts, action_name, action_args="0"):
+def dog_fewshot_json(thoughts, action_name):
     """
     构造小狗回复样例的JSON。
 
     参数:
-    - type_: 消息类型，如 "chat" 或 "game"。
     - thoughts: 思考内容。
-    - action_name: 动作名称。
-    - action_args: 动作参数，默认为 "0"。
+    - action: 动作名称。
 
     """
     message = {
-        "type": type_,
         "thoughts": thoughts,
-        "action": {
-            "arguments": action_args,
-            "name": action_name
-        }
+        "action": action_name,
     }
 
-    # 使用json.dumps格式化输出为字符串
-    content = json.dumps(message, indent=4)
+    # 使用json.dumps格式化输出为字符串，并禁止ASCII转义
+    content = json.dumps(message, indent=4, ensure_ascii=False)
 
     return role_content_json("assistant", content)
 
+# def dog_fewshot_json(type_, thoughts, action_name, action_args="0"):
+#     """
+#     构造小狗回复样例的JSON。
+#
+#     参数:
+#     - type_: 消息类型，如 "chat" 或 "game"。
+#     - thoughts: 思考内容。
+#     - action_name: 动作名称。
+#     - action_args: 动作参数，默认为 "0"。
+#
+#     """
+#     message = {
+#         "type": type_,
+#         "thoughts": thoughts,
+#         "action": {
+#             "arguments": action_args,
+#             "name": action_name
+#         }
+#     }
+#
+#     # 使用json.dumps格式化输出为字符串
+#     content = json.dumps(message, indent=4)
+#
+#     return role_content_json("assistant", content)
+#
 
 """
     ————————————————json格式化函数————————————————
