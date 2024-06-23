@@ -1,6 +1,12 @@
 #define BITTLE
 
-// 仅添加了prompt_action_list所提到的动作，保持同步
+const int8_t cnt[] PROGMEM = {
+  -3,   0,   0,   1,
+   0,   0,   0,
+   0,   0,   0,   0,   0,   0,   0,   0,  30,  30,  30,  30,  30,  30,  30,  30,   8,   0,   0,   0,
+   0,   0,   0,   0,   0,   0,   0,   0,  30,  30,  30,  30,  13,  30,  30,  30,   8,   0,   0,   0,
+   0,   0,   0,   0,   0,   0,   0,   0,  30,  30,  30,  30,  30,  30,  30,  30,   8,   0,   0,   0,
+};
 
 const int8_t come[] PROGMEM = {
  -22,   0,   0,   1,
@@ -237,11 +243,11 @@ const int8_t ang[] PROGMEM = {
     0, -80,   0,   0,   0,   0,   0,   0,  30,  30,  30,  30,  30,  30,  30,  30,	16, 0, 0, 0,
 };
 
-  const char* skillNameWithType[]={"restI", "sitI", "upI", "balanceI", "scrhI", "ckI", "snfI", "dgI", "comeI", "hiI", "hgI", "hskI", "ndI", "gdbI", "chrI", "fivI", "whI", "angI", "mwI", "hdsI", "bfI",};
+  const char* skillNameWithType[]={"cntI","restI", "sitI", "upI", "balanceI", "scrhI", "ckI", "snfI", "dgI", "comeI", "hiI", "hgI", "hskI", "ndI", "gdbI", "chrI", "fivI", "whI", "angI", "mwI", "hdsI", "bfI",};
 #if !defined(MAIN_SKETCH) || !defined(I2C_EEPROM)
 		//if it's not the main sketch to save data or there's no external EEPROM,
 		//the list should always contain all information.
-  const int8_t* progmemPointer[] = {rest, sit, up, balance, scrh, ck, snf, dg, come, hi, hg, hsk, nd, gdb, chr, fiv, wh, ang, mw, hds, bf};
+  const int8_t* progmemPointer[] = {cnt, rest, sit, up, balance, scrh, ck, snf, dg, come, hi, hg, hsk, nd, gdb, chr, fiv, wh, ang, mw, hds, bf};
 #else	//only need to know the pointers to newbilities, because the intuitions have been saved onto external EEPROM,
 	//while the newbilities on progmem are assigned to new addresses
   const int8_t* progmemPointer[] = {zero, };

@@ -27,11 +27,11 @@ def construct_prompts(user_input):
         role_content_json("user","小狗小狗快过来"),
         role_content_json("assistant","come,hi"),
         #
-        # # role_content_json("user","你今天吃饭了吗"),
-        # # role_content_json("assistant","<<wh>>"),
+        role_content_json("user","你今天吃饭了吗"),
+        role_content_json("assistant","wh"),
         #
         # role_content_json("user","我这里有好吃的"),
-        # role_content_json("assistant","<<gdb>>,<<hsk>>"),
+        # role_content_json("assistant","gdb,hsk"),
 
         # 用户输入
         role_content_json("user", user_input)
