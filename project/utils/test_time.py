@@ -2,14 +2,18 @@
 # -*- coding:utf-8 -*-
 
 import time
+from print_format import colored_output
 
 
 def timing(func):
     def wrapper(*args, **kwargs):
-        start_time = time.time()  # 记录函数开始执行的时间
-        result = func(*args, **kwargs)  # 执行函数
-        end_time = time.time()  # 记录函数结束执行的时间
-        print(f"{func.__name__} 运行时间: {end_time - start_time:.2f} 秒")
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        duration = end_time - start_time
+
+        # Unicode小时钟图标
+        colored_output(f"🕐 [{func.__name__}] {duration:.2f} s", "blue")
         return result
 
     return wrapper

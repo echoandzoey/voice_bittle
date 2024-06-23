@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
 import time
 
 from api_info import *
@@ -21,18 +23,7 @@ client = Groq(api_key=GROQ_API_KEY)
 def construct_prompts(user_input):
     prompts = [
         # 系统提示
-        role_content_json("system", prompt_judge),
-        #
-        # 对话样例
-        role_content_json("user","小狗小狗快过来"),
-        role_content_json("assistant","come,hi"),
-        #
-        # # role_content_json("user","你今天吃饭了吗"),
-        # # role_content_json("assistant","<<wh>>"),
-        #
-        # role_content_json("user","我这里有好吃的"),
-        # role_content_json("assistant","<<gdb>>,<<hsk>>"),
-
+        role_content_json("system", "用中文回答"),
         # 用户输入
         role_content_json("user", user_input)
     ]
@@ -40,7 +31,7 @@ def construct_prompts(user_input):
 
 
 @timing
-def tool_choice(user_input):
+def llm_interaction(user_input):
     """
     Send the message to the model with a list of tools and prompt the model to use the tools.
     Tools is a list of dict describing functions.
@@ -56,23 +47,22 @@ def tool_choice(user_input):
         model="llama3-8b-8192", messages=prompts,
     )
     # 选择了返回工具
-    choice = reply.choices[0].message.content
+    model_reply = reply.choices[0].message.content
     # choice = completion.choices[0].message.tool_calls[0].function
-    colored_output("🦴 回复内容：" + choice, "yellow")
+    colored_output("🤖 Groq:\n" + model_reply, "yellow")
 
-    # try:
-    #     # 选择了返回工具
-    #     choice = reply.choices[0].message.content
-    #     # choice = completion.choices[0].message.tool_calls[0].function
-    #     print(f"-------------\n{choice}\n-------------")
-    # fixed_choice = ensure_json_wrapped_with_braces(choice)
-
-    # except Exception as e:
-    #     fixed_choice = "none"
-    #     print("小狗想说人话，但是失败了，因为建国后动物不许成精。")
-
-    return choice
+    return model_reply
 
 
+# 测试：在此处与模型对话
+if __name__ == "__main__":
+    try:
+        while True:
+            colored_output("❓ 请输入：", "green")
+            user_input = input()
+            llm_interaction(user_input)
+    # 检查是否退出
+    except KeyboardInterrupt:
+        colored_output("👋 再见！期待下次与您的交谈。", "yellow")
 
 

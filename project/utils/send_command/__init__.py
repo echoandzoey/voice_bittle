@@ -1,4 +1,5 @@
 import sys
+from utils.test_time import timing
 
 # sys.path.append('./send_command')
 
@@ -19,7 +20,7 @@ def initBittle():
 def closeBittle(goodPorts):
     closeAllSerial(goodPorts)
 
-
+# @timing
 def sendCommand(goodPorts, command, data=[]):
     if data:
         send(goodPorts, [command, data, 0.1])

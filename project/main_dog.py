@@ -1,6 +1,7 @@
 # from utils.send_command import *
 import sys
-from utils.speech_processing.speech_to_text import AudioStreamer
+from utils import *
+from speech_processing.speech_to_text import AudioStreamer
 from llm_interaction.interact_with_llm import tool_choice
 import json
 from llm_interaction.prompt_action_list import actions
@@ -9,13 +10,14 @@ from utils.ParseTools import parse_action, parse_combo_actions
 import time
 import threading
 import os
+from print_format import colored_output
+import logging
 
-
-history = []
+# history = []
 goodPorts = None
 
 # 是否连接机器狗
-is_dog_connected = False
+is_dog_connected = True
 
 
 def on_message(message):
@@ -27,8 +29,9 @@ def on_message(message):
     if user_input != "":
         # 暂时取消padding动作
         # padding_thread = threading.Thread(target=padding_action)
-        padding_thread = threading.Thread()
-        padding_thread.start()
+        # padding_thread = threading.Thread()
+        # padding_thread.start()
+
         # 与llm交互
         tool = tool_choice(user_input)
         # 小狗做出反应
@@ -45,7 +48,16 @@ def print_user_input(message):
                 result += w["w"]
         result = result.strip(". ，。！？")
         if result:
-            print("识别结果: " + result)
+            # 计算边框长度，基于result的实际长度
+            border_length = len(result) + 4  # 两边各加2个空格和边框字符的宽度
+            # 上边框
+            top_border = " ┌" + "─" * border_length + "┐\n"
+            # 内容部分，两边添加空格以保持居中
+            content = "<│" + result + "\n"
+            # 下边框
+            bottom_border = " └" + "─" * border_length + "┘"
+            print(top_border + content + bottom_border)
+
     return result
 
 
@@ -70,40 +82,33 @@ def print_user_input(message):
 
 # 支持组合动作版
 def dog_reaction_combo(tool):
-    # actions_list = []
-    actions_list = parse_combo_actions(tool)
+    # actions_list = parse_combo_actions(tool)
     # print(f"待做列表里面有不为零的参数: {len([action for action in actions_list if action])}")
-    while actions_list:
+
+    # 预处理，去除所有空格，字符串按逗号分割成列表
+    actions_list = tool.replace(" ", "").split(",")
+    while tool:
         action = actions_list.pop(0)  # 取出第一个动作
         if action == '':
             break
-        print(f"Processing action: {action}")
+        # print(f"Processing action: {action}")
         send_dog_action(action)
-
-
-def padding_action():
-    # todo: padding动作，小狗思考如何作出反应
-    # test
-    print("小狗正在思考...\n")
-    if is_dog_connected:
-        padding_start = time.time()
-        # send_dog_action("reply")
-        padding_end = time.time()
-        print("执行padding动作耗时", padding_end - padding_start)
 
 
 # 发送小狗动作命令
 def send_dog_action(action_name):
-    print("向小狗发送指令：", action_name)
+    colored_output("🐶 执行动作：" + action_name, "green")
     if is_dog_connected:
         sendCommand(goodPorts, "k" + action_name)
 
 
 if __name__ == "__main__":
+    # 配置日志级别,之后的logging.info()调用将不会显示
+    logging.basicConfig(level=logging.WARNING)
+
     original_path = os.getcwd()
     if is_dog_connected:
         goodPorts = initBittle()
-        print("连接机器狗")
     audio_streamer = AudioStreamer(callback=on_message)
     start_time = time.time()
     # 开始录音时，示意用户可以说话了
@@ -117,8 +122,8 @@ if __name__ == "__main__":
         print("键盘中断，停止运行...")
     finally:
         os.chdir(original_path)  # 恢复原路径
-        print("恢复原路径")
+        # print("恢复原路径")
         if is_dog_connected:
-            print("关闭机器狗")
+            # print("关闭机器狗")
             closeBittle(goodPorts)
         exit(0)
