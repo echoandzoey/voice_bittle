@@ -7,9 +7,9 @@
     <list default="true" id="1da8c6b5-25b6-44a8-9c84-e5d7a9695dab" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_chat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/main_dog.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main_dog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/utils/ParseTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/ParseTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/utils/json_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/json_operation.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -202,9 +202,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main_dog" />
+        <item itemvalue="Python.interact_with_llm" />
         <item itemvalue="Python.test_visualization_speech" />
         <item itemvalue="Python.test_model" />
-        <item itemvalue="Python.interact_with_llm" />
         <item itemvalue="Python.print_format" />
       </list>
     </recent_temporary>

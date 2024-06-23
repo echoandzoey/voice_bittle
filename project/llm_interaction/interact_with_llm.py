@@ -27,16 +27,13 @@ def construct_prompts(user_input):
         # 对话样例
         role_content_json("user","小狗小狗快过来"),
         dog_fewshot_json("主人在叫我，我要过去打个招呼", "come,hi"),
-        # role_content_json("assistant","come,hi"),
         #
         role_content_json("user","1+1等于几"),
         dog_fewshot_json("1+1=2，所以我应该做2次cnt","cnt,cnt"),
 
         role_content_json("user", "8-7等于几"),
         dog_fewshot_json("8-7=1，所以我应该做1次cnt", "cnt"),
-        #
-        # role_content_json("user","我这里有好吃的"),
-        # role_content_json("assistant","gdb,hsk"),
+
 
         # 用户输入
         role_content_json("user", user_input)
@@ -65,7 +62,8 @@ def tool_choice(user_input):
     # choice = completion.choices[0].message.tool_calls[0].function
     colored_output("🦴 回复内容：" + choice, "yellow")
 
-    # 解析出动作列表
+    # 检查返回的json格式，并解析出动作列表
+    choice = ensure_json_wrapped_with_braces(choice)
     tool_list = parse_action_list(choice)
 
     return tool_list

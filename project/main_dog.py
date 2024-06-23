@@ -54,7 +54,6 @@ def print_user_input(message):
     return result
 
 
-
 # 发送小狗动作命令
 def send_dog_action(action_name):
     colored_output("🐶 执行动作：" + action_name, "green")

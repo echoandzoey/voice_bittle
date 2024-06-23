@@ -96,7 +96,6 @@ def ensure_json_wrapped_with_braces(json_str):
             # 如果没有找到 '{'，则在开始位置添加 '{'
             print("这个json没有{，成功查漏补缺")
             trimmed_str = '{' + trimmed_str
-    
 
     # 检查字符串是否以闭合的大括号结束
     if not trimmed_str.endswith('}'):
@@ -109,6 +108,5 @@ def ensure_json_wrapped_with_braces(json_str):
             # 如果没有找到 '}'，则在末尾位置添加 '}'
             # print("这个json没有}，成功查漏补缺")
             trimmed_str += '}'
-   
 
     return trimmed_str
