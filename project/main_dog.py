@@ -4,14 +4,14 @@ from llm_interaction.interact_with_llm import tool_choice
 from utils.send_command import sendCommand, initBittle, closeBittle
 import time
 import os
-from print_format import colored_output
-import logging
+from print_format import *
+import threading
+import random
 
-# history = []
 goodPorts = None
 
 # 是否连接机器狗
-is_dog_connected = True
+is_dog_connected = False
 
 
 def on_message(message):
@@ -23,8 +23,6 @@ def on_message(message):
         # padding_thread = threading.Thread(target=padding_action)
         # padding_thread = threading.Thread()
         # padding_thread.start()
-
-        # 与llm交互
         choice = tool_choice(user_input)
         action_list = choice
 
@@ -32,26 +30,22 @@ def on_message(message):
             send_dog_action(action)
 
 
-# 打印用户语音识别结果
-def print_user_input(message):
-    result = ""
-    if message:
-        for i in message["ws"]:
-            for w in i["cw"]:
-                result += w["w"]
-        result = result.strip(". ，。！？")
-        if result:
-            # 计算边框长度，基于result的实际长度
-            border_length = len(result) + 4  # 两边各加2个空格和边框字符的宽度
-            # 上边框
-            top_border = " ┌" + "─" * border_length + "┐\n"
-            # 内容部分，两边添加空格以保持居中
-            content = "<│" + result + "\n"
-            # 下边框
-            bottom_border = " └" + "─" * border_length + "┘"
-            print(top_border + content + bottom_border)
+def dog_reaction(llm_input):
+    choice = tool_choice(llm_input)
+    action_list = choice
 
-    return result
+    for action in action_list:
+        send_dog_action(action)
+
+
+def auto_reaction(llm_input):
+    while True:
+        # 生成随机时间间隔
+        delay = random.uniform(4, 6)
+        # 使用Timer在指定延迟后执行dog_reaction
+        timer = threading.Timer(delay, dog_reaction, args=(llm_input,))
+        timer.start()
+        time.sleep(delay)
 
 
 # 发送小狗动作命令
@@ -62,21 +56,21 @@ def send_dog_action(action_name):
 
 
 if __name__ == "__main__":
-    # 配置日志级别,之后的logging.info()调用将不会显示
-    logging.basicConfig(level=logging.WARNING)
-
     original_path = os.getcwd()
     if is_dog_connected:
         goodPorts = initBittle()
     audio_streamer = AudioStreamer(callback=on_message)
-    start_time = time.time()
     # 开始录音时，示意用户可以说话了
     send_dog_action("scrh")
+
+    # 不定时让小狗执行自主动作
+    auto_reaction("暂时没人和你说话，做些自己的事情吧")
 
     try:
         # 程序代码
         while True:
             time.sleep(1)
+
     except KeyboardInterrupt:
         print("键盘中断，停止运行...")
     finally:
