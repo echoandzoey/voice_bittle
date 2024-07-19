@@ -38,7 +38,7 @@ def auto_reaction():
             continue
 
         # 检查是否超时
-        if time.time() - last_reaction_time > 9:
+        if time.time() - last_reaction_time > 15:
             # 调用dog_reaction
             dog_reaction(
                 "（系统提示：当前无需与人互动，继续你自己的故事吧。当然，在这时你喜欢穿插些小动作，表示你没有睡着。只回复1~2个动作）")
