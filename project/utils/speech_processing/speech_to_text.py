@@ -71,7 +71,7 @@ class AudioStreamer:
                     "language": "zh_cn",
                     "accent": "mandarin",
                     "vinfo": 1,
-                    "vad_eos": 30000
+                    "vad_eos": 48000  # 单次检测时长
                 },
                 "data": {
                     "status": 0,

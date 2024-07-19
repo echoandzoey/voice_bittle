@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 from json_operation import role_content_json
 from print_format import *
 from utils.send_command import *
@@ -60,11 +62,14 @@ class Bittle:
         【小狗行为】
     """
 
-    def remember(self, event):
-        """记录一个新事件到记忆中，控制记忆容量为2"""
-        self.memory.append(event)
-        # 如果列表长度超过2，移除第一个元素（最旧的事件）
-        if len(self.memory) > 2:
+    def remember(self, thoughts, action_list):
+        """记录一个新事件到记忆中，控制记忆容量"""
+        # 获取当前时间并格式化为"HH:MM"
+        current_time = datetime.now().strftime("%H:%M")
+        # 在memory前添加时间信息
+        memory_with_time = f"在{current_time}的时候，我当时在想：{thoughts}，我已经做了{action_list}动作，我无需再重复了"
+        self.memory.append(memory_with_time)        # 如果列表过长，移除第一个元素（最旧的事件）
+        if len(self.memory) > 5:
             self.memory.pop(0)
 
     # 使用示例
