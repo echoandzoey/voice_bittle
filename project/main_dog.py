@@ -1,82 +1,75 @@
-# from utils.send_command import *
-from speech_processing.speech_to_text import AudioStreamer
-from llm_interaction.interact_with_llm import tool_choice
-from utils.send_command import sendCommand, initBittle, closeBittle
-import time
-import os
-from print_format import *
-import threading
 import random
-
-goodPorts = None
-
-# 是否连接机器狗
-is_dog_connected = False
-
-
-def on_message(message):
-    # 打印用户语音输入的识别结果
-    user_input = print_user_input(message)
-    # 等待llm应答，做出padding动作，表示正在思考
-    if user_input != "":
-        # 暂时取消padding动作
-        # padding_thread = threading.Thread(target=padding_action)
-        # padding_thread = threading.Thread()
-        # padding_thread.start()
-        choice = tool_choice(user_input)
-        action_list = choice
-
-        for action in action_list:
-            send_dog_action(action)
+from ParseTools import parse_action_list
+from prompt_design import construct_prompts
+from dog_class import *
+from interact_with_llm import get_llm_msg
+from print_format import *
+from speech_processing.speech_to_text import AudioStreamer
 
 
-def dog_reaction(llm_input):
-    choice = tool_choice(llm_input)
-    action_list = choice
-
-    for action in action_list:
-        send_dog_action(action)
-
-
-def auto_reaction(llm_input):
+# 输入方式1：小狗自主动作，定时执行
+def auto_reaction():
     while True:
         # 生成随机时间间隔
         delay = random.uniform(4, 6)
         # 使用Timer在指定延迟后执行dog_reaction
-        timer = threading.Timer(delay, dog_reaction, args=(llm_input,))
+        timer = threading.Timer(delay, dog_reaction, args=("做些自己的事情吧",))
         timer.start()
         time.sleep(delay)
 
 
-# 发送小狗动作命令
-def send_dog_action(action_name):
-    colored_output("🐶 执行动作：" + action_name, "green")
-    if is_dog_connected:
-        sendCommand(goodPorts, "k" + action_name)
+# 输入方式2；小狗响应用户输入
+def on_message(message):
+    # 接收并打印用户输入
+    user_input = print_user_input(message)
+    if user_input != "":
+        dog_reaction(user_input)
+
+
+# 主程序：与llm通讯并执行动作
+def dog_reaction(current_input):
+    # 构建输入llm的提示词（记忆功能）
+    prompts = construct_prompts(current_input, dog.memory)
+
+    # 获取llm结果(字典类型）
+    reply_json = get_llm_msg(prompts)
+
+    # 解析llm结果: 解析出动作列表
+    action_list = parse_action_list(reply_json)
+
+    # 执行动作
+    for action in action_list:
+        dog.action(action)
+
+    # 存储会话
+    dialog = [
+        role_content_json("user", current_input),
+        role_content_json("assistant", reply_json),
+    ]
+    dog.remember(dialog)
 
 
 if __name__ == "__main__":
     original_path = os.getcwd()
-    if is_dog_connected:
-        goodPorts = initBittle()
+
+    # 实例化dog对象，设置是否连接
+    dog = Bittle(is_dog_connected=False)
+
+    # 获取用户输入
     audio_streamer = AudioStreamer(callback=on_message)
-    # 开始录音时，示意用户可以说话了
-    send_dog_action("scrh")
 
-    # 不定时让小狗执行自主动作
-    auto_reaction("暂时没人和你说话，做些自己的事情吧")
+    # 小狗自主动作
+    auto_reaction()
 
-    try:
-        # 程序代码
-        while True:
-            time.sleep(1)
-
-    except KeyboardInterrupt:
-        print("键盘中断，停止运行...")
-    finally:
-        os.chdir(original_path)  # 恢复原路径
-        # print("恢复原路径")
-        if is_dog_connected:
-            # print("关闭机器狗")
-            closeBittle(goodPorts)
-        exit(0)
+    # try:
+    #     # 程序代码
+    #     while True:
+    #         time.sleep(1)
+    #
+    # except KeyboardInterrupt:
+    #     print("键盘中断，停止运行...")
+    # finally:
+    #     os.chdir(original_path)  # 恢复原路径
+    #     dog.close()
+    #     # print("恢复原路径")
+    #     exit(0)

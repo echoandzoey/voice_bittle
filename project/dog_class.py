@@ -1,12 +1,22 @@
-from llm_interaction.interact_with_llm import get_llm_msg
+import json
+from json_operation import role_content_json
 from print_format import *
-from project.llm_interaction.construct_prompt import *
-from utils.ParseTools import parse_action_list
 from utils.send_command import *
 
 """
     与小狗相关的自定义属性与方法
 """
+
+
+def create_dialog(user_input, dog_json):
+    """创建对话"""
+    dialog = {
+        role_content_json("user", user_input),
+        dog_json
+    }
+
+    return dialog
+
 
 def dog_fewshot_json(thoughts, action_name):
     """
@@ -34,9 +44,9 @@ class Bittle:
     """
 
     def __init__(self, is_dog_connected=False):
-        # 初始化机器狗的记忆、想法和心情
+        # 初始化机器狗的记忆、想法
         self.memory = []  # 存储过去的事件或经验
-        self.thoughts = "Just booted up."  # 当前的想法
+        self.thoughts = "I'm a cute dog."  # 当前的想法
 
         # 连接机器狗
         self.is_dog_connected = is_dog_connected
@@ -51,8 +61,13 @@ class Bittle:
     """
 
     def remember(self, event):
-        """记录一个新事件到记忆中"""
+        """记录一个新事件到记忆中，控制记忆容量为2"""
         self.memory.append(event)
+        # 如果列表长度超过2，移除第一个元素（最旧的事件）
+        if len(self.memory) > 2:
+            self.memory.pop(0)
+
+    # 使用示例
 
     def think(self, thought):
         """更新当前的想法"""
@@ -63,21 +78,6 @@ class Bittle:
         colored_output("🐶 执行动作：" + action_name, "green")
         if self.is_dog_connected:
             sendCommand(self.goodPorts, "k" + action_name)
-
-    # 与llm通讯并响应
-    def dog_reaction(self, user_input):
-        # 构建输入llm的提示词
-        prompts = construct_prompts(user_input)
-
-        # 获取llm结果(字典类型）
-        reply_dict = get_llm_msg(prompts)
-
-        # 解析llm结果: 解析出动作列表
-        action_list = parse_action_list(reply_dict)
-
-        # 执行动作
-        for action in action_list:
-            self.action(action)
 
     def close(self):
         """关闭连接"""
@@ -101,7 +101,7 @@ class Bittle:
         【输出小狗状态，管理json格式】
     """
 
-    def describe(self):
-        """描述当前的机器狗状态"""
-        return f"Memory: {self.memory}\nThoughts: {self.thoughts}"
-
+    # def describe(self):
+    #     """描述当前的机器狗状态"""
+    #     return f"Memory: {self.memory}\nThoughts: {self.thoughts}"
+    #
