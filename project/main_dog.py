@@ -42,6 +42,7 @@ def auto_reaction():
             # 调用dog_reaction
             dog_reaction(
                 "（系统提示：当前无需与人互动，继续你自己的故事吧。当然，在这时你喜欢穿插些小动作，表示你没有睡着。只回复1~2个动作）")
+            time.sleep(9) # 停止检查
 
         # 避免高频率检查
         time.sleep(1.5)
