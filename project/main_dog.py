@@ -25,9 +25,6 @@ def on_message(message):
     if user_input != "":
         dog_reaction(user_input)
 
-    # 更新最后消息时间
-    last_reaction_time = time.time()
-
     # 清除标志，允许auto_reaction再次运行
     pause_auto_reaction = False
 
