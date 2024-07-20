@@ -1,5 +1,5 @@
-from llm_interaction.interact_with_memory import *
-from llm_interaction.memory_robot import *
+from project.llm_interaction.interact_with_memory import *
+from project.llm_interaction.memory_robot import *
 def main():
     agent = Agent()
     agent.greet_master()
@@ -11,4 +11,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+    
     

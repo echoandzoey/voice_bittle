@@ -1,10 +1,10 @@
 import random
-from utils.ParseTools import parse_action_list
-from llm_interaction.prompt_design_dog import construct_prompts
-from dog_class import *
-from llm_interaction.interact_with_llm import get_llm_msg
-from utils.print_format import *
-from utils.speech_processing.speech_to_text import AudioStreamer
+from project.utils.ParseTools import parse_action_list
+from project.llm_interaction.prompt_design_dog import construct_prompts
+from project.dog_class import *
+from project.llm_interaction.interact_with_llm import get_llm_msg
+from project.utils.print_format import *
+from project.utils.speech_processing.speech_to_text import AudioStreamer
 
 # 全局变量记录最后消息时间、控制auto_reaction的标志
 last_reaction_time = time.time()
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     original_path = os.getcwd()
 
     # 实例化dog对象，设置是否连接
-    dog = Bittle(is_dog_connected=False)
+    dog = Bittle(is_dog_connected=True)
 
     # 获取用户输入
     audio_streamer = AudioStreamer(callback=on_message)
