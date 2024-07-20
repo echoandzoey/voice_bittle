@@ -36,10 +36,10 @@ def format_json(json_str):
         # 修复大括号问题
         json_with_braces = fix_braces(json_str)
 
-        # 修复逗号问题
-        fixed_json_str = fix_missing_comma(json_with_braces)
+        # # 修复逗号问题
+        # fixed_json_str = fix_missing_comma(json_with_braces)
 
-    return fixed_json_str
+    return json_with_braces
 
 
 def fix_braces(json_str):

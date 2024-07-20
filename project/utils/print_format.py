@@ -22,6 +22,7 @@ def print_user_input(message):
 
     return result
 
+
 def colored_output(text, color_code):
     """
     打印彩色输出

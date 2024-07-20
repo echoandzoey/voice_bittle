@@ -31,6 +31,7 @@ def on_message(message):
 
 # 输入方式2：若长时间无动作，自主动作
 def auto_reaction():
+    wait_time = 12  # 随机动作触发时间
     while True:
         # 检查是否应暂停运行
         if pause_auto_reaction:
@@ -38,11 +39,14 @@ def auto_reaction():
             continue
 
         # 检查是否超时
-        if time.time() - last_reaction_time > 15:
+        if time.time() - last_reaction_time > wait_time:
+            # 随机抽取动作
+            dog.random_action()
+
             # 调用dog_reaction
-            dog_reaction(
-                "（系统提示：当前无需与人互动，继续你自己的故事吧。当然，在这时你喜欢穿插些小动作，表示你没有睡着。只回复1~2个动作）")
-            time.sleep(9) # 停止检查
+            # dog_reaction("（系统提示：当前无需与人互动，继续你自己的故事吧。当然，在这时你喜欢穿插些小动作，表示你没有睡着。只回复1~2个动作）")
+
+            time.sleep(wait_time)  # 已做动作，等待下次触发
 
         # 避免高频率检查
         time.sleep(1.5)
@@ -66,7 +70,6 @@ def dog_reaction(current_input):
         if action != "none":
             dog.action(action)
 
-
     # # 记忆
     # thoughts = reply_dict.get("thoughts")
     # dog.remember(thoughts, action_list)
@@ -76,7 +79,7 @@ if __name__ == "__main__":
     original_path = os.getcwd()
 
     # 实例化dog对象，设置是否连接
-    dog = Bittle(is_dog_connected=True)
+    dog = Bittle(is_dog_connected=False)
 
     # 获取用户输入
     audio_streamer = AudioStreamer(callback=on_message)

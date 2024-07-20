@@ -29,9 +29,12 @@ def get_llm_msg(prompts):
     )
     # 提取回复内容
     reply_content = reply.choices[0].message.content
+
+    # 打印
+    colored_output("🦴 回复内容：" + reply_content, "yellow")
+
     # 格式化回复内容：检查json格式，并将json字符串变为字典
     reply_json = format_json(reply_content)
-    # 打印
-    colored_output("🦴 回复内容：" + reply_json, "yellow")
+
 
     return reply_json

@@ -1,8 +1,10 @@
 import json
+import random
 from datetime import datetime
 
 from json_operation import role_content_json
 from print_format import *
+from prompt_action_list import random_actions
 from utils.send_command import *
 
 """
@@ -62,21 +64,21 @@ class Bittle:
         【小狗行为】
     """
 
-    def remember(self, thoughts, action_list):
-        """记录一个新事件到记忆中，控制记忆容量"""
-        # 获取当前时间并格式化为"HH:MM"
-        current_time = datetime.now().strftime("%H:%M")
-        # 在memory前添加时间信息
-        memory_with_time = f"在{current_time}的时候，我当时在想：{thoughts}，我已经做了{action_list}动作，我无需再重复了"
-        self.memory.append(memory_with_time)        # 如果列表过长，移除第一个元素（最旧的事件）
-        if len(self.memory) > 5:
-            self.memory.pop(0)
-
-    # 使用示例
-
-    def think(self, thought):
-        """更新当前的想法"""
-        self.thoughts = thought
+    # def remember(self, thoughts, action_list):
+    #     """记录一个新事件到记忆中，控制记忆容量"""
+    #     # 获取当前时间并格式化为"HH:MM"
+    #     current_time = datetime.now().strftime("%H:%M")
+    #     # 在memory前添加时间信息
+    #     memory_with_time = f"在{current_time}的时候，我当时在想：{thoughts}，我已经做了{action_list}动作，我无需再重复了"
+    #     self.memory.append(memory_with_time)        # 如果列表过长，移除第一个元素（最旧的事件）
+    #     if len(self.memory) > 5:
+    #         self.memory.pop(0)
+    #
+    # # 使用示例
+    #
+    # def think(self, thought):
+    #     """更新当前的想法"""
+    #     self.thoughts = thought
 
     def action(self, action_name):
         """执行动作"""
@@ -84,23 +86,39 @@ class Bittle:
         if self.is_dog_connected:
             sendCommand(self.goodPorts, "k" + action_name)
 
+    def random_action(self):
+        # 随机决定抽取条目的数量
+        num_items_to_pick = random.randint(1, 2)
+
+        # 获取所有的键
+        keys = list(random_actions.keys())
+
+        # 随机抽取指定数量的键
+        selected_keys = random.sample(keys, num_items_to_pick)
+
+        colored_output("┌─RANDOM", "purple")
+        for key in selected_keys:
+            print("│", end="")
+            self.action(key)
+        colored_output("└──────", "purple")
+
     def close(self):
         """关闭连接"""
         if self.is_dog_connected:
             # print("关闭机器狗")
             closeBittle(self.goodPorts)
 
-    """
-        【获取小狗属性】
-    """
+    # """
+    #     【获取小狗属性】
+    # """
 
-    def get_memory(self):
-        """获取当前的记忆列表"""
-        return self.memory
-
-    def get_thoughts(self):
-        """获取当前的想法"""
-        return self.thoughts
+    # def get_memory(self):
+    #     """获取当前的记忆列表"""
+    #     return self.memory
+    #
+    # def get_thoughts(self):
+    #     """获取当前的想法"""
+    #     return self.thoughts
 
     """
         【输出小狗状态，管理json格式】
