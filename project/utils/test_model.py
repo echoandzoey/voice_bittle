@@ -2,18 +2,18 @@
 # -*- coding:utf-8 -*-
 import time
 
-from api_info import *
-from utils.json_operation import *
+from project.api_info import *
+from project.utils.json_operation import *
 # from zhipuai import ZhipuAI
 from openai import OpenAI
 from groq import Groq
 # 海龟汤prompt
 # from project.llm_interaction.turtle_prompt import prompt_judge
-from utils.test_time import timing
+from project.utils.test_time import timing
 
 # 聊天prompt
 from llm_interaction.prompt_design_dog import prompt_judge
-from utils.print_format import colored_output
+from project.utils.print_format import colored_output
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
 # client = ZhipuAI(api_key=ZHIPU_API_KEY)

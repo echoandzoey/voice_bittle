@@ -1,11 +1,11 @@
 import sys
-from utils.test_time import timing
+from project.utils.test_time import timing
 
 # sys.path.append('./send_command')
 
 sys.path.append('K:\\UnityProjects2024\\voice_bittle\\project\\utils\\send_command')
 
-from utils.send_command.ardSerial import *
+from project.utils.send_command.ardSerial import *
 
 
 def initBittle():

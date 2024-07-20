@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import time
-from print_format import colored_output
+from project.utils.print_format import colored_output
 
 
 def timing(func):

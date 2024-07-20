@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import openai, chromadb
 
-from api_info import *
-from llm_interaction.prompt_design_robot import*
-from llm_interaction.memory_robot import *
-from utils.json_operation import *
-from utils.print_format import *
+from project.api_info import *
+from project.llm_interaction.prompt_design_robot import*
+from project.llm_interaction.memory_robot import *
+from project.utils.json_operation import *
+from project.utils.print_format import *
 # Text colors
 MAGENTA = "\033[35m" # Magenta color
 RESET = "\033[0m"  # Reset to default color

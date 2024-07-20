@@ -9,7 +9,7 @@ import base64
 import hmac
 from urllib.parse import urlencode
 from wsgiref.handlers import format_date_time
-from api_info import *
+from project.api_info import *
 import json
 
 # import logging

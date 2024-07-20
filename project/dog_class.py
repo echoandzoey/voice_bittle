@@ -2,10 +2,10 @@ import json
 import random
 from datetime import datetime
 
-from utils.json_operation import role_content_json
-from utils.print_format import *
-from llm_interaction.prompt_action_list import random_actions
-from utils.send_command import *
+from project.utils.json_operation import role_content_json
+from project.utils.print_format import *
+from project.llm_interaction.prompt_action_list import random_actions
+from project.utils.send_command import *
 
 """
     与小狗相关的自定义属性与方法

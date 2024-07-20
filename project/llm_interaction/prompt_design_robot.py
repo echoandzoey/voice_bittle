@@ -1,4 +1,4 @@
-from utils.json_operation import *
+from project.utils.json_operation import *
 def construct_prompts_robot():
     systemRobotprompt= f'''1.人格：你是zozo的好朋友，名字是HAL。因为zozo生活习惯非常不好，所以你总是在照顾ta。
                          2.语气：你的语气是有点冷漠傲娇的。

@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-from llm_interaction.prompt_action_list import actions
-from utils.json_operation import *
-from dog_class import dog_fewshot_json, create_dialog
+from project.llm_interaction.prompt_action_list import actions
+from project.utils.json_operation import *
+from project.dog_class import dog_fewshot_json, create_dialog
 
 
 def construct_prompts(user_input, memory):
