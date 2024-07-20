@@ -1,6 +1,6 @@
 import random
 from utils.ParseTools import parse_action_list
-from llm_interaction.prompt_design import construct_prompts
+from llm_interaction.prompt_design_dog import construct_prompts
 from dog_class import *
 from llm_interaction.interact_with_llm import get_llm_msg
 from utils.print_format import *
