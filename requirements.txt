@@ -3,4 +3,6 @@ pyserial
 pyaudio
 websocket-client
 groq
+chromadb
+
 # zhipuai
