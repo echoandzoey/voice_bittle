@@ -1,12 +1,26 @@
-from llm_interaction.interact_with_llm import get_llm_msg
+import json
+import random
+from datetime import datetime
+
+from json_operation import role_content_json
 from print_format import *
-from project.llm_interaction.construct_prompt import *
-from utils.ParseTools import parse_action_list
+from prompt_action_list import random_actions
 from utils.send_command import *
 
 """
     与小狗相关的自定义属性与方法
 """
+
+
+def create_dialog(user_input, dog_json):
+    """创建对话"""
+    dialog = {
+        role_content_json("user", user_input),
+        dog_json
+    }
+
+    return dialog
+
 
 def dog_fewshot_json(thoughts, action_name):
     """
@@ -34,9 +48,9 @@ class Bittle:
     """
 
     def __init__(self, is_dog_connected=False):
-        # 初始化机器狗的记忆、想法和心情
+        # 初始化机器狗的记忆、想法
         self.memory = []  # 存储过去的事件或经验
-        self.thoughts = "Just booted up."  # 当前的想法
+        self.thoughts = "I'm a cute dog."  # 当前的想法
 
         # 连接机器狗
         self.is_dog_connected = is_dog_connected
@@ -50,13 +64,21 @@ class Bittle:
         【小狗行为】
     """
 
-    def remember(self, event):
-        """记录一个新事件到记忆中"""
-        self.memory.append(event)
-
-    def think(self, thought):
-        """更新当前的想法"""
-        self.thoughts = thought
+    # def remember(self, thoughts, action_list):
+    #     """记录一个新事件到记忆中，控制记忆容量"""
+    #     # 获取当前时间并格式化为"HH:MM"
+    #     current_time = datetime.now().strftime("%H:%M")
+    #     # 在memory前添加时间信息
+    #     memory_with_time = f"在{current_time}的时候，我当时在想：{thoughts}，我已经做了{action_list}动作，我无需再重复了"
+    #     self.memory.append(memory_with_time)        # 如果列表过长，移除第一个元素（最旧的事件）
+    #     if len(self.memory) > 5:
+    #         self.memory.pop(0)
+    #
+    # # 使用示例
+    #
+    # def think(self, thought):
+    #     """更新当前的想法"""
+    #     self.thoughts = thought
 
     def action(self, action_name):
         """执行动作"""
@@ -64,20 +86,21 @@ class Bittle:
         if self.is_dog_connected:
             sendCommand(self.goodPorts, "k" + action_name)
 
-    # 与llm通讯并响应
-    def dog_reaction(self, user_input):
-        # 构建输入llm的提示词
-        prompts = construct_prompts(user_input)
+    def random_action(self):
+        # 随机决定抽取条目的数量
+        num_items_to_pick = random.randint(1, 2)
 
-        # 获取llm结果(字典类型）
-        reply_dict = get_llm_msg(prompts)
+        # 获取所有的键
+        keys = list(random_actions.keys())
 
-        # 解析llm结果: 解析出动作列表
-        action_list = parse_action_list(reply_dict)
+        # 随机抽取指定数量的键
+        selected_keys = random.sample(keys, num_items_to_pick)
 
-        # 执行动作
-        for action in action_list:
-            self.action(action)
+        colored_output("┌─RANDOM", "purple")
+        for key in selected_keys:
+            print("│", end="")
+            self.action(key)
+        colored_output("└──────", "purple")
 
     def close(self):
         """关闭连接"""
@@ -85,23 +108,23 @@ class Bittle:
             # print("关闭机器狗")
             closeBittle(self.goodPorts)
 
-    """
-        【获取小狗属性】
-    """
+    # """
+    #     【获取小狗属性】
+    # """
 
-    def get_memory(self):
-        """获取当前的记忆列表"""
-        return self.memory
-
-    def get_thoughts(self):
-        """获取当前的想法"""
-        return self.thoughts
+    # def get_memory(self):
+    #     """获取当前的记忆列表"""
+    #     return self.memory
+    #
+    # def get_thoughts(self):
+    #     """获取当前的想法"""
+    #     return self.thoughts
 
     """
         【输出小狗状态，管理json格式】
     """
 
-    def describe(self):
-        """描述当前的机器狗状态"""
-        return f"Memory: {self.memory}\nThoughts: {self.thoughts}"
-
+    # def describe(self):
+    #     """描述当前的机器狗状态"""
+    #     return f"Memory: {self.memory}\nThoughts: {self.thoughts}"
+    #

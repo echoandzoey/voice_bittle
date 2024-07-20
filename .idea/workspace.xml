@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="1da8c6b5-25b6-44a8-9c84-e5d7a9695dab" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/dog_class.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/dog_class.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/interact_with_llm.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_action_list.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/llm_interaction/prompt_chat.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/llm_interaction/prompt_chat.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/main_dog.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/main_dog.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/utils/json_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/json_operation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/utils/print_format.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/print_format.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,29 +52,33 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.audiofile_to_text (1).executor": "Run",
-    "Python.file_to_text.executor": "Run",
-    "Python.interact_with_llm.executor": "Run",
-    "Python.main_dog.executor": "Run",
-    "Python.main_no_dog.executor": "Run",
-    "Python.main_no_hardware.executor": "Run",
-    "Python.no_dog.executor": "Run",
-    "Python.print_format.executor": "Run",
-    "Python.speech_to_text.executor": "Run",
-    "Python.testTime.executor": "Run",
-    "Python.test_model.executor": "Run",
-    "Python.test_speech.executor": "Run",
-    "Python.test_time (1).executor": "Run",
-    "Python.test_visual_speech.executor": "Run",
-    "Python.test_visualization_speech.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Desktop/myPetoi",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.audiofile_to_text (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.file_to_text.executor&quot;: &quot;Run&quot;,
+    &quot;Python.interact_with_llm.executor&quot;: &quot;Run&quot;,
+    &quot;Python.json_operation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_dog (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_dog.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_no_dog.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main_no_hardware.executor&quot;: &quot;Run&quot;,
+    &quot;Python.no_dog.executor&quot;: &quot;Run&quot;,
+    &quot;Python.print_format.executor&quot;: &quot;Run&quot;,
+    &quot;Python.prompt_design.executor&quot;: &quot;Run&quot;,
+    &quot;Python.speech_to_text.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testTime.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_model.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_speech.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_time (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_visual_speech.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_visualization_speech.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Desktop/myPetoi&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Desktop\myPetoi\project\llm_interaction\unused" />
@@ -81,14 +86,14 @@
       <recent name="D:\Desktop\myPetoi\utils\speech_processing" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Desktop\myPetoi\project\llm_interaction\unused" />
       <recent name="D:\Desktop\myPetoi" />
+      <recent name="D:\Desktop\myPetoi\project\llm_interaction\unused" />
       <recent name="D:\Desktop\myPetoi\prompt_design" />
       <recent name="D:\Desktop\myPetoi\utils" />
       <recent name="D:\Desktop\myPetoi\ref" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main_dog">
+  <component name="RunManager" selected="Python.main_dog (1)">
     <configuration name="interact_with_llm" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPetoi" />
       <option name="ENV_FILES" value="" />
@@ -111,7 +116,29 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main_dog" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="json_operation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="myPetoi" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/utils/json_operation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main_dog (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPetoi" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -133,7 +160,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="print_format" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="main_dog" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPetoi" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,11 +169,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/utils" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/utils/print_format.py" />
+      <option name="SCRIPT_NAME" value="D:\Desktop\myPetoi\project\main_dog.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -155,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_model" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="prompt_design" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="myPetoi" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -164,33 +191,11 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/utils" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/llm_interaction" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/utils/test_model.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_visualization_speech" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="myPetoi" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/utils/speech_processing/test" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/utils/speech_processing/test/test_visualization_speech.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/llm_interaction/prompt_design.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -201,11 +206,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main_dog (1)" />
+        <item itemvalue="Python.prompt_design" />
+        <item itemvalue="Python.json_operation" />
         <item itemvalue="Python.main_dog" />
         <item itemvalue="Python.interact_with_llm" />
-        <item itemvalue="Python.test_visualization_speech" />
-        <item itemvalue="Python.test_model" />
-        <item itemvalue="Python.print_format" />
       </list>
     </recent_temporary>
   </component>
@@ -252,13 +257,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/project/utils/json_operation.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/project/utils/json_operation.py</url>
-          <line>40</line>
-          <option name="timeStamp" value="15" />
+          <line>91</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

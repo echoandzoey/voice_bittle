@@ -12,7 +12,7 @@ from groq import Groq
 from utils.test_time import timing
 
 # 聊天prompt
-from llm_interaction.prompt_chat import prompt_judge
+from llm_interaction.prompt_design import prompt_judge
 from utils.print_format import colored_output
 
 # client = OpenAI(api_key=OPENAI_API_KEY)
