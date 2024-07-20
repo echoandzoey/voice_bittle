@@ -2,9 +2,9 @@ import json
 import random
 from datetime import datetime
 
-from json_operation import role_content_json
-from print_format import *
-from prompt_action_list import random_actions
+from utils.json_operation import role_content_json
+from utils.print_format import *
+from llm_interaction.prompt_action_list import random_actions
 from utils.send_command import *
 
 """

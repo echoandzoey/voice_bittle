@@ -4,7 +4,7 @@ import time
 
 from api_info import *
 from utils.json_operation import *
-from zhipuai import ZhipuAI
+# from zhipuai import ZhipuAI
 from openai import OpenAI
 from groq import Groq
 # 海龟汤prompt

@@ -1,10 +1,10 @@
 import random
-from ParseTools import parse_action_list
-from prompt_design import construct_prompts
+from utils.ParseTools import parse_action_list
+from llm_interaction.prompt_design import construct_prompts
 from dog_class import *
-from interact_with_llm import get_llm_msg
-from print_format import *
-from speech_processing.speech_to_text import AudioStreamer
+from llm_interaction.interact_with_llm import get_llm_msg
+from utils.print_format import *
+from utils.speech_processing.speech_to_text import AudioStreamer
 
 # 全局变量记录最后消息时间、控制auto_reaction的标志
 last_reaction_time = time.time()
