@@ -6,6 +6,8 @@ from project.llm_interaction.prompt_design_robot import*
 from project.llm_interaction.memory_robot import *
 from project.utils.json_operation import *
 from project.utils.print_format import *
+from project.dog_class import*
+# from project.main_robot import dog
 # Text colors
 MAGENTA = "\033[35m" # Magenta color
 RESET = "\033[0m"  # Reset to default color
@@ -67,6 +69,7 @@ class Agent():
 
             # add query
             user_message = user_message + "记忆：" + str(self.recall(user_message)["documents"])
+            print("查询到的相关记忆是"+ user_message)
             messages.append({"role": "user", "content": user_message})
 
             # get response
@@ -80,11 +83,43 @@ class Agent():
             data=format_json(messages[-1]["content"])
             data=json.loads(data)
             colored_output("💭 想法" + data["thoughts"], "blue")
+            colored_output("🤖 " + data["action"], "green")
             colored_output("🤖 " + data["chat"], "pink")
+            
             
 
         self.memorize(messages)
+    def llmInteraction(self,Currentinput) :
+        #构建初始请求列表，系统prompt+userinput
+        messages=construct_prompts_robot()
+        messages.append({"role": "user", "content": Currentinput})
+        #根据输入查询相关记忆，添加到记忆库
+        user_message=Currentinput
+        #输入结束的时候开始总结记忆，否则不会把记忆加进去
+        if user_message == "结束":
+            self.memorize(messages)
+        else:
+            user_message = user_message + "记忆：" + str(self.recall(user_message)["documents"])
+            print("查询到的相关记忆是"+ user_message)
+            messages.append({"role": "user", "content": user_message})
 
+            # get response
+            completion = client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=messages)
+            messages.append({"role": "assistant", "content": completion.choices[0].message.content})
+
+            # print response
+            print(MAGENTA + messages[-1]["content"] + RESET)
+            data=format_json(messages[-1]["content"])
+            data=json.loads(data)
+            colored_output("💭 想法" + data["thoughts"], "blue")
+            colored_output("🤖 " + data["action"], "green")
+            colored_output("🤖 " + data["chat"], "pink")
+    
+        return data["action"]
+                       
+    
 
     def forget(self, ids) -> None:
         """Delete a document from the vector database"""
