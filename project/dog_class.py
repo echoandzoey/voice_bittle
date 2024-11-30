@@ -73,9 +73,9 @@ class Bittle:
     #     self.memory.append(memory_with_time)        # 如果列表过长，移除第一个元素（最旧的事件）
     #     if len(self.memory) > 5:
     #         self.memory.pop(0)
-    #
+    
     # # 使用示例
-    #
+    
     # def think(self, thought):
     #     """更新当前的想法"""
     #     self.thoughts = thought
