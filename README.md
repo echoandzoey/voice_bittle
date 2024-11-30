@@ -38,22 +38,7 @@
 - `project/dog_class.py` - 机器狗类实现
 - `project/utils/send_command.py` - 硬件通信接口
 
-## 系统架构
-project/
-├── dog_class.py # 机器狗核心类
-├── main_dog.py # 主程序入口
-├── llm_interaction/ # LLM交互模块
-│ ├── interact_with_llm.py # LLM接口
-│ ├── interact_with_memory.py # LLM记忆功能 
-│ ├── prompt_design_dog.py # dog提示词设计
-│ ├── prompt_design_robot.py # robot提示词设计
-│ ├── memory_robot.py # 记忆字段存储
-│ └── prompt_action_list.py# 动作列表
-├── utils/ # 工具模块
-│ ├── speech_processing/ # 语音处理
-│ ├── json_operation.py # JSON操作
-│ ├── print_format.py # 输出格式化
-│ └── send_command.py # 硬件通信
+
 
 ## 系统架构
 ```
