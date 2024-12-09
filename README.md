@@ -87,6 +87,8 @@ project/
 
 ### 1. 环境配置
 
+(Linux环境下请先安装portaudio库。e.g. `sudo apt install portaudio19-dev python3-dev`)
+
 pip install -r requirements.txt
 
 
