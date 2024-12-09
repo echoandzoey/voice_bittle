@@ -97,8 +97,8 @@ pip install -r requirements.txt
 
 
 ### 2. 启动系统
-python project/main_dog.py
-
+<!-- python project/main_dog.py -->
+python -m project.main_dog
 
 ### 3. 交互方式
 
