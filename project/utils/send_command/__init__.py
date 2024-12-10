@@ -3,7 +3,8 @@ from project.utils.test_time import timing
 
 # sys.path.append('./send_command')
 
-sys.path.append('K:\\UnityProjects2024\\voice_bittle\\project\\utils\\send_command')
+# sys.path.append('K:\\UnityProjects2024\\voice_bittle\\project\\utils\\send_command')
+sys.path.append("./project/utils/send_command")
 
 from project.utils.send_command.ardSerial import *
 

@@ -87,12 +87,18 @@ project/
 
 ### 1. 环境配置
 
+#### Linux环境
+
+- Linux环境下可能需要安装额外的依赖库，已知的额外依赖包括：
+   1. 用于音频处理的pyaudio需要依赖`portaudio`库：`sudo apt install portaudio19-dev python3-dev`。
+   2. 用于给机器狗发送命令的脚本使用了`tkinter`库生成GUI界面，可能需要安装`tkinter`库：`sudo apt install python3-tk`。
+
 pip install -r requirements.txt
 
 
 ### 2. 启动系统
-python project/main_dog.py
-
+<!-- python project/main_dog.py -->
+python -m project.main_dog
 
 ### 3. 交互方式
 
