@@ -122,7 +122,7 @@ class AudioStreamer:
                 except Exception:
                     break
                     # status = 2
-                time.sleep(INTERVAL)
+                # time.sleep(INTERVAL)  
 
             # Close the connection
             time.sleep(1)
