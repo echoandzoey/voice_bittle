@@ -5,6 +5,7 @@ from project.dog_class import *
 from project.llm_interaction.interact_with_llm import get_llm_msg
 from project.utils.print_format import *
 from project.utils.speech_processing.speech_to_text import AudioStreamer
+from project.utils.speech_processing.speech_to_text_whisper import WhisperStreamer
 
 # 全局变量记录最后消息时间、控制auto_reaction的标志
 last_reaction_time = time.time()
@@ -21,9 +22,9 @@ def on_message(message):
     pause_auto_reaction = True
 
     # 打印用户输入
-    user_input = print_user_input(message)
-    if user_input != "":
-        dog_reaction(user_input)
+    print_user_input(message)
+    if message != "":
+        dog_reaction(message)
 
     # 清除标志，允许auto_reaction再次运行
     pause_auto_reaction = False
@@ -81,8 +82,18 @@ if __name__ == "__main__":
     # 实例化dog对象，设置是否连接
     dog = Bittle(is_dog_connected=True)
 
-    # 获取用户输入
-    audio_streamer = AudioStreamer(callback=on_message)
+    user_message = input("请输入1或2选择你的小狗：[1]聪明小狗 [2]胡言乱语的小狗")
+    time.sleep(1)
+    
+    while user_message not in ["1", "2"]:
+        print("请输入正确的选项")
+        user_message = input("请输入1或2选择你的小狗：[1]聪明小狗 [2]胡言乱语的小狗")
+    
+    # main loop
+    if user_message == "1":
+        audio_streamer = AudioStreamer(callback=on_message)
+    else:
+        audio_streamer = WhisperStreamer(callback=on_message)
 
     # 小狗自主动作
     auto_reaction_thread = threading.Thread(target=auto_reaction)

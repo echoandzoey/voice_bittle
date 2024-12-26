@@ -4,5 +4,8 @@ pyaudio
 websocket-client
 groq
 chromadb
+sounddevice
+webrtcvad
+openai-whisper
 
 # zhipuai

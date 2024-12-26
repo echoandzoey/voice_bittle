@@ -3,24 +3,18 @@
 
 # 打印用户语音识别结果
 def print_user_input(message):
-    result = ""
     if message:
-        for i in message["ws"]:
-            for w in i["cw"]:
-                result += w["w"]
-        result = result.strip(". ，。！？")
-        if result:
-            # 计算边框长度，基于result的实际长度
-            border_length = len(result) + 4  # 两边各加2个空格和边框字符的宽度
-            # 上边框
-            top_border = " ┌" + "─" * border_length + "┐\n"
-            # 内容部分，两边添加空格以保持居中
-            content = "<│" + result + "\n"
-            # 下边框
-            bottom_border = " └" + "─" * border_length + "┘"
-            print(top_border + content + bottom_border)
+        # 计算边框长度，基于result的实际长度
+        border_length = len(message) + 4  # 两边各加2个空格和边框字符的宽度
+        # 上边框
+        top_border = " ┌" + "─" * border_length + "┐\n"
+        # 内容部分，两边添加空格以保持居中
+        content = "<│" + message + "\n"
+        # 下边框
+        bottom_border = " └" + "─" * border_length + "┘"
+        print(top_border + content + bottom_border)
 
-    return result
+
 
 
 def colored_output(text, color_code):

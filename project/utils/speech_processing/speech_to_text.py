@@ -43,6 +43,16 @@ class AudioStreamer:
         self.reconnect_thread = threading.Thread(target=self.handle_reconnection)
         self.reconnect_thread.daemon = True
         self.reconnect_thread.start()
+        
+    def process_Xunfei_message(self, message):
+        result = ""
+        if message:
+            for i in message["ws"]:
+                for w in i["cw"]:
+                    result += w["w"]
+            result = result.strip(". ，。！？")
+        return result
+
 
     def on_message(self, ws, message):
         # print(f"Received message: {message}")
@@ -53,10 +63,13 @@ class AudioStreamer:
         # Update status
         global status
         status = data["status"]
+        
+        content = self.process_Xunfei_message(data["result"])
+
 
         # Call the callback function
         if self.callback is not None:
-            self.callback(data["result"])
+            self.callback(content)
 
     def on_error(self, ws, error):
         print(f"Error: {error}")

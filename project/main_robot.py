@@ -7,6 +7,7 @@ from project.utils.print_format import *
 from project.utils.speech_processing.speech_to_text import AudioStreamer
 from project.llm_interaction.interact_with_memory import *
 from project.llm_interaction.memory_robot import *
+from project.utils.speech_processing.speech_to_text_whisper import WhisperStreamer
 
 
 last_reaction_time = time.time()
@@ -21,11 +22,21 @@ def on_message(message):
 
     # 设置标志，指示auto_reaction应暂停运行
     pause_auto_reaction = True
+    
+    # initialize Robot_action
+    Robot_action = "none"
 
     # 打印用户输入
-    user_input = print_user_input(message)
-    if user_input != "":
-        Robot_action= agent.llmInteraction(user_input)
+    print_user_input(message)
+    print(message)
+    if message != "":
+        Robot_action = agent.llmInteraction(message)
+        if Robot_action == "结束":
+            os.chdir(original_path)  # 恢复原路径
+            dog.close()
+            exit(0)
+        elif Robot_action != "none":
+            dog.action(Robot_action) 
     
     if Robot_action != "none":
                 dog.action(Robot_action) 
@@ -81,9 +92,19 @@ if __name__ == "__main__":
 
     # 实例化dog对象，设置是否连接
     dog = Bittle(is_dog_connected=True)
-   
-    # 获取用户输入
-    audio_streamer = AudioStreamer(callback=on_message)
+    
+    user_message = input("请输入1或2选择你的小狗：[1]聪明小狗 [2]胡言乱语的小狗")
+    time.sleep(1)
+    
+    while user_message not in ["1", "2"]:
+        print("请输入正确的选项")
+        user_message = input("请输入1或2选择你的小狗：[1]聪明小狗 [2]胡言乱语的小狗")
+    
+    # main loop
+    if user_message == "1":
+        audio_streamer = AudioStreamer(callback=on_message)
+    else:
+        audio_streamer = WhisperStreamer(callback=on_message)
 
     # 小狗自主动作
     auto_reaction_thread = threading.Thread(target=auto_reaction)
