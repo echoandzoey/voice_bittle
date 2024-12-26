@@ -81,7 +81,7 @@ class AudioStreamer:
             }
 
             # First Frame
-            data = self.stream.read(CHUNK)
+            data = self.stream.read(CHUNK, exception_on_overflow=False)
             data_template["data"]["audio"] = str(base64.b64encode(data), 'utf-8')
             ws.send(json.dumps(data_template))
             time.sleep(INTERVAL)
@@ -95,18 +95,20 @@ class AudioStreamer:
 
             # Continous Frames
             while status != 2:
-                data = self.stream.read(CHUNK)
+                data = self.stream.read(CHUNK, exception_on_overflow=False)
                 data_template["data"]["audio"] = str(base64.b64encode(data), 'utf-8')
                 try:
                     ws.send(json.dumps(data_template))
                 except Exception:
-                    status = 2
+                    break
+                    # status = 2
                 time.sleep(INTERVAL)
 
             # Close the connection
             time.sleep(1)
             ws.close()
-            # print("Thread terminating...")
+            status = 2
+            print("Thread terminating...")
 
         threading.Thread(target=run).start()
 
