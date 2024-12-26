@@ -11,6 +11,7 @@ from urllib.parse import urlencode
 from wsgiref.handlers import format_date_time
 from project.api_info import *
 import json
+import webrtcvad
 
 # import logging
 # logging.getLogger('httpx').setLevel(logging.WARNING)
@@ -18,11 +19,13 @@ import json
 # Configuration
 SERVER_URL = "wss: //iat-api.xfyun.cn/v2/iat"
 RECONNECT_TIME = 55  # seconds
-CHUNK = 1280
+# CHUNK = 1280
 INTERVAL = 0.04
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 8000
+frame_duration_ms = 30
+CHUNK = int(RATE * frame_duration_ms / 1000)
 
 # The status of the connection, 1 for continuing, 2 for closing
 status = 2
@@ -79,6 +82,8 @@ class AudioStreamer:
                     "encoding": "raw"
                 }
             }
+                        
+            vad = webrtcvad.Vad(1)
 
             # First Frame
             data = self.stream.read(CHUNK, exception_on_overflow=False)
@@ -96,6 +101,8 @@ class AudioStreamer:
             # Continous Frames
             while status != 2:
                 data = self.stream.read(CHUNK, exception_on_overflow=False)
+                if not vad.is_speech(data, RATE):
+                    continue
                 data_template["data"]["audio"] = str(base64.b64encode(data), 'utf-8')
                 try:
                     ws.send(json.dumps(data_template))
