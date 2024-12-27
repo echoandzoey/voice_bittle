@@ -74,9 +74,8 @@ class AudioStreamer:
     def on_error(self, ws, error):
         print(f"Error: {error}")
 
-    def on_close(self, ws):
-        # print("### closed ###")
-        pass
+    def on_close(self, ws, close_status_code, close_msg):
+        print(f"WebSocket {ws} closed with status code: {close_status_code}, message: {close_msg}")
 
     def on_open(self, ws: websocket.WebSocketApp):
         def run(*args):
@@ -101,7 +100,10 @@ class AudioStreamer:
             # First Frame
             data = self.stream.read(CHUNK, exception_on_overflow=False)
             data_template["data"]["audio"] = str(base64.b64encode(data), 'utf-8')
-            ws.send(json.dumps(data_template))
+            try:
+                ws.send(json.dumps(data_template))
+            except Exception:
+                print("send failed")
             time.sleep(INTERVAL)
             del data_template["business"]
             del data_template["common"]
@@ -109,7 +111,7 @@ class AudioStreamer:
             # Update status
             global status
             status = 1
-            data_template["data"]["status"] = status
+            data_template["data"]["status"] = 1   # 讯飞data传输格式: 0: first frame, 1: continue frame, 2: last frame
 
             # Continous Frames
             while status != 2:
@@ -119,7 +121,8 @@ class AudioStreamer:
                 data_template["data"]["audio"] = str(base64.b64encode(data), 'utf-8')
                 try:
                     ws.send(json.dumps(data_template))
-                except Exception:
+                except Exception as e:
+                    print("send error:" + str(e))
                     break
                     # status = 2
                 # time.sleep(INTERVAL)  
