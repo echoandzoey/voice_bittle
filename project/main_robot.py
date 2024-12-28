@@ -34,6 +34,7 @@ def on_message(message):
         if Robot_action == "结束":
             os.chdir(original_path)  # 恢复原路径
             dog.close()
+            audio_streamer.close()
             exit(0)
         elif Robot_action != "none":
             dog.action(Robot_action) 
@@ -115,7 +116,8 @@ if __name__ == "__main__":
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("键盘中断，停止运行...")
+        audio_streamer.close()
+        print("\n键盘中断，停止运行...")
     finally:
         os.chdir(original_path)  # 恢复原路径
         dog.close()

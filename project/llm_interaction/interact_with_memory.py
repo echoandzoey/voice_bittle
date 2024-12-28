@@ -19,6 +19,10 @@ chromadb_client = chromadb.PersistentClient(path= "memory")
 # openai_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(api_key=OPENAI_API_KEY, model_name="text-embedding-3-large")
 openai_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(api_key=OPENAI_API_KEY, model_name="text-embedding-3-large", api_base=base_url) #Note: openai转接口base_url配置 如果没有配置转接口需要注释本行，并打开上一行
 
+def print_log(content):
+    # print("[log] " + str(content))
+    pass
+
 class Agent():
     def __init__(self, name="HAL",master="zozo") -> None:
         self.name = name
@@ -50,7 +54,7 @@ class Agent():
         # print(completion.choices[0])
         self.collection.add(documents=[completion.choices[0].message.content], ids=[str(self.memory_num)])
         self.memory_num += 1
-        print("memory ID: " + str(self.memory_num))
+        print_log("memory ID: " + str(self.memory_num))
 
 
     def recall(self, query) -> dict:
@@ -87,22 +91,20 @@ class Agent():
             completion = client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=messages)
-            print("assistant: "+str(completion.choices[0].message.content))
+            print_log("assistant: "+str(completion.choices[0].message.content))
             
             # print response
             print(MAGENTA + messages[-1]["content"] + RESET)
             data=completion.choices[0].message.content
-            # print("before json load" + str(data))
+            print_log("before json load" + str(data))
             data=json.loads(data)
             # colored_output("💭 想法" + data["thoughts"], "blue")
             colored_output("🤖 " + data['action'], "green")
             colored_output("🤖 " + data['chat'], "pink")
             self.short_memory.append({"role": "assistant", "content": data["chat"]})
 
-            
-            
-        # print("before memorize: "+str(messages))
         self.memorize()
+        
     def llmInteraction(self,user_message) :
         # #构建初始请求列表，系统prompt+userinput
         # print("Currentinput"+str(Currentinput))

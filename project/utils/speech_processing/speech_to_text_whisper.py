@@ -3,6 +3,7 @@ import whisper
 import sounddevice as sd
 import numpy as np
 import webrtcvad
+import time
 
 
 # 音频缓冲区和其他参数
@@ -17,7 +18,13 @@ class WhisperStreamer:
         self.callback = callback
         self.vad = webrtcvad.Vad(1)
         self.model = whisper.load_model("base").eval()  # 加载预训练的 Whisper 模型，并设置为评模式 可选模型: tiny, base, small, medium, large
-        self.start_streaming()
+        self.stream = sd.InputStream(callback=self.on_message, channels=1, samplerate=16000, blocksize=buffer_size)
+        # self.reconnect_thread = threading.Thread(target=self.start_streaming)
+        # self.reconnect_thread.daemon = True
+        # self.reconnect_thread.start()
+        # self.running = False
+        # self.start_streaming()
+        self.stream.start()
         
     # 定义流式解码函数
     def stream_decode(self, audio_buffer):
@@ -60,14 +67,21 @@ class WhisperStreamer:
             
     # 启动麦克风流
     def start_streaming(self):
-        stream = sd.InputStream(callback=self.on_message, channels=1, samplerate=16000, blocksize=buffer_size)
-        with stream:
+        self.running = True
+        # try:
+        with self.stream:
             print("Listening...")
-            while True:
-                sd.sleep(1000)  # 继续监听
-    
+            while self.running:
+                time.sleep(1)  # 继续监听
+        # except KeyboardInterrupt:
+        #     print("\n键盘中断，停止运行...")
+            # self.close()
 
-
+    def close(self):
+        if self.stream and self.stream.active:
+            # self.running = False
+            self.stream.abort()
+            print("Audio stream stopped.")
 
 
 

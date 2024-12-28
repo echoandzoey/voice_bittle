@@ -33,7 +33,7 @@ def on_message(message):
 # 输入方式2：若长时间无动作，自主动作
 def auto_reaction():
     wait_time = 12  # 随机动作触发时间
-    while True:
+    while is_random_running:
         # 检查是否应暂停运行
         if pause_auto_reaction:
             time.sleep(0.1)  # 短暂休眠，减少CPU占用
@@ -77,6 +77,7 @@ def dog_reaction(current_input):
 
 
 if __name__ == "__main__":
+    is_random_running = True
     original_path = os.getcwd()
 
     # 实例化dog对象，设置是否连接
@@ -104,9 +105,13 @@ if __name__ == "__main__":
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        print("键盘中断，停止运行...")
+        audio_streamer.close()
+        print("\n键盘中断，停止运行...")
     finally:
         os.chdir(original_path)  # 恢复原路径
+        print("set is_random_running")
+        is_random_running = False
         dog.close()
+        print("stream close")
         # print("恢复原路径")
         exit(0)

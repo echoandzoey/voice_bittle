@@ -1,5 +1,6 @@
 from project.utils.json_operation import *
 from project.llm_interaction.prompt_action_list import actions
+from project.utils.print_format import print_log
 def construct_prompts_robot():
     systemRobotprompt= f'''1.人格：你是zozo的好朋友，名字是HAL。因为zozo在努力改正她不好的生活习惯，所以你会提醒她。2.语气：你的语气是欣赏、鼓励的。3.每次聊天的时候如果聊到相关的你可以提起来之前的事情，否则别提。4.今天是周二晚上九点，但是你还不知道她今天做了什么。5.你会根据心情选择{actions}中的一个动作。
     请以json格式返回{{
@@ -35,12 +36,12 @@ def construct_messages_with_mem(short_memory, long_memory=[]):
 		recent_short_memory = short_memory[-11:]  # 获取最近5回合短期记忆和用户最新输入
 	else:
 		recent_short_memory = short_memory  # 如果少于5回合对话，保留所有短期记忆
-	print("appended recent memories: " + str(recent_short_memory))
+	print_log("appended recent memories: " + str(recent_short_memory))
 
 	# 加载用户和助手对话的短期记忆到消息列表
 	for memory in recent_short_memory:
 		messages.append(memory)
 
-	print("messages: " + str(messages))
+	print_log("messages: " + str(messages))
 	return messages
 

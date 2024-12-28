@@ -14,7 +14,9 @@ def print_user_input(message):
         bottom_border = " └" + "─" * border_length + "┘"
         print(top_border + content + bottom_border)
 
-
+def print_log(content):
+    # print("[log] " + str(content))
+    pass
 
 
 def colored_output(text, color_code):
