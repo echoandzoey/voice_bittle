@@ -1,4 +1,6 @@
 from groq import Groq
+import openai
+import zhipuai
 
 from project.api_info import *
 from project.utils.json_operation import *
